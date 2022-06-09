@@ -1,0 +1,10 @@
+{
+    "tasks": {
+        "start": "deno run --import-map=import_map.json --allow-env=NODE_DEBUG --allow-net --allow-write --allow-read src/index.tsx",
+        "dev": "deno run --inspect-brk --import-map=import_map.json --allow-env=NODE_DEBUG --allow-net --allow-write --allow-read src/index.tsx"
+    },
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "jsxImportSource": "nano-jsx"
+    }
+}

@@ -1,0 +1,14 @@
+name: Github Stats
+description: Generate your github readme stats.
+author: 'Wybxc'
+inputs:
+  wakatime-username:
+    description: Your wakatime username.
+    required: true
+  wakatime-output-filename:
+    description: Your wakatime stats output filename.
+    required: false
+    default: wakatime-stats.svg
+runs:
+  using: docker
+  image: Dockerfile
