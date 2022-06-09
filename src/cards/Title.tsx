@@ -40,7 +40,7 @@ const Title: JSX.FC<{ title: string; titlePrefixIcon?: string }> = ({
           }
         }
       `}</Style>
-      <FlexLayout gap={25} direction="horizon">
+      <FlexLayout gap={theme.lineHeight} direction="horizon">
         {titlePrefixIcon ? (
           <svg
             class="icon"

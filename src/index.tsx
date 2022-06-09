@@ -20,7 +20,8 @@ const MySvg: JSX.FC = () => {
       <WakatimeCard
         stats={stats}
         title="Wakatime Stats"
-        compact={true}
+        compact={false}
+        width={495}
         languagesCount={8}
       />
     </ThemeProvider>

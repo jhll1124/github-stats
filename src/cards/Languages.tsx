@@ -1,8 +1,10 @@
 import * as JSX from '../common/jsx_extra.ts';
 
-import { firefoxFontSize, font } from '../themes/utils.tsx';
+import { font, measureText } from '../themes/utils.tsx';
 
+import { FlexLayout } from './Layout.tsx';
 import Style from '../common/Style.tsx';
+import getLanguageColor from '../common/languageColors.ts';
 import { useTheme } from '../themes/Theme.tsx';
 
 export interface Language {
@@ -13,24 +15,83 @@ export interface Language {
 
 export type Languages = Language[];
 
-export const ProgressBar: JSX.FC<{
+export const NormalLanguageList: JSX.FC<{
+  languages: Languages;
+  top: number;
+  width: number;
+}> = ({ languages, top, width }) => {
+  const theme = useTheme();
+
+  const maxTextWidth = languages
+    .map((language) => measureText(language.text, theme.textFont))
+    .reduce((a, b) => Math.max(a, b), 0);
+
+  return (
+    <FlexLayout gap={theme.lineHeight + 15} direction="vertical">
+      {languages.map((language) => (
+        <NormalLanguage
+          language={language}
+          top={top}
+          width={width}
+          maxTextWidth={maxTextWidth}
+        />
+      ))}
+    </FlexLayout>
+  );
+};
+
+export const NormalLanguage: JSX.FC<{
   language: Language;
-}> = ({ language }) => {
+  top: number;
+  width: number;
+  maxTextWidth: number;
+}> = ({ language, top, width, maxTextWidth }) => {
+  const theme = useTheme();
+
+  return (
+    <g transform={`translate(${top}, 0)`}>
+      <Style>{`
+        .lang-name {
+          font: ${font(theme.textFont)};
+          fill: ${theme.textColor};
+        }
+      `}</Style>
+      <text class="lang-name" x={2} y={15} data-testid={language.name}>
+        {language.name}
+      </text>
+      <text class="lang-name" x={width - maxTextWidth} y={34}>
+        {language.text}
+      </text>
+
+      {theme.hideProgressBar ? null : (
+        <NormalProgressBar
+          language={language}
+          width={width - maxTextWidth - 10}
+        />
+      )}
+    </g>
+  );
+};
+
+export const NormalProgressBar: JSX.FC<{
+  language: Language;
+  width: number;
+}> = ({ language, width }) => {
   const theme = useTheme();
   return (
-    <svg width={220} x={110} y={4}>
+    <svg width={width} x={0} y={25}>
       <rect
         rx="5"
         ry="5"
         x="0"
         y="0"
-        width={220}
+        width="100%"
         height="8"
-        fill={theme.progressBarBackgroundColor ?? theme.textColor}
+        fill={theme.progressBarBackgroundColor}
       ></rect>
       <rect
         height="8"
-        fill={theme.progressBarColor ?? theme.titleColor}
+        fill={getLanguageColor(language.name)}
         rx="5"
         ry="5"
         x="0"
@@ -39,41 +100,5 @@ export const ProgressBar: JSX.FC<{
         width={`${language.percent}%`}
       ></rect>
     </svg>
-  );
-};
-
-export const LanguageWithProgressBar: JSX.FC<{
-  language: Language;
-}> = ({ language }) => {
-  const theme = useTheme();
-  // const staggerDelay = (index + 3) * 150;
-
-  return (
-    <g
-      class="stagger"
-      style="animation-delay: ${staggerDelay}ms"
-      transform="translate(25, 0)"
-    >
-      <Style>{`
-        .stat {
-          font: ${font(theme.textFont)}; 
-          fill: ${theme.textColor};
-        }
-        @supports(-moz-appearance: auto) {
-          /* Selector detects Firefox */
-          .stat { font-size: ${firefoxFontSize(theme.textFont)}; }
-        }
-
-        .bold { font-weight: 700 }
-      `}</Style>
-      <text class="stat bold" y="12.5" data-testid={language.name}>
-        {language.name}:
-      </text>
-      <text class="stat" x={theme.hideProgressBar ? 170 : 350} y="12.5">
-        {language.text}
-      </text>
-
-      {theme.hideProgressBar ? null : <ProgressBar language={language} />}
-    </g>
   );
 };

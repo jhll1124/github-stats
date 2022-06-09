@@ -1,10 +1,10 @@
 import * as JSX from '../common/jsx_extra.ts';
 
 import { CompactLanguageList, CompactProgressBar } from './Compact.tsx';
+import { NormalLanguage, NormalLanguageList } from './Languages.tsx';
 
 import Card from './Card.tsx';
 import { FlexLayout } from './Layout.tsx';
-import { LanguageWithProgressBar } from './Languages.tsx';
 import { WakaTimeData } from '../fetchers/wakatime-fetcher.ts';
 import { useTheme } from '../themes/Theme.tsx';
 
@@ -12,6 +12,7 @@ interface WakatimeCardProps {
   stats: WakaTimeData;
   title: string;
   compact: boolean;
+  width: number;
   languagesCount?: number;
   hideLanguages?: string[];
 }
@@ -20,6 +21,7 @@ const WakatimeCard: JSX.FC<WakatimeCardProps> = ({
   stats,
   title,
   compact,
+  width,
   languagesCount = stats.languages?.length ?? 0,
   hideLanguages = [],
 }) => {
@@ -32,23 +34,25 @@ const WakatimeCard: JSX.FC<WakatimeCardProps> = ({
   );
 
   const height = compact
-    ? 90 + Math.ceil(languages.length / 2) * theme.lineHeight
-    : 45 + (languages.length + 1) * theme.lineHeight;
+    ? Math.ceil(languages.length / 2) * theme.lineHeight +
+      theme.lineHeight +
+      theme.paddingY * 2
+    : 45 + (languages.length + 1) * (theme.lineHeight + 15);
 
   return (
-    <Card title={title} width={495} height={height}>
+    <Card title={title} width={width} height={height}>
       <svg x="0" y="0" width="100%">
         {compact ? (
-          <>
-            <CompactProgressBar languages={languages} />
-            <CompactLanguageList languages={languages} top={25} />
-          </>
+          <CompactLanguageList
+            languages={languages}
+            width={width - theme.paddingX * 2}
+          />
         ) : (
-          <FlexLayout gap={theme.lineHeight} direction="vertical">
-            {languages.map((language) => (
-              <LanguageWithProgressBar language={language} />
-            ))}
-          </FlexLayout>
+          <NormalLanguageList
+            languages={languages}
+            top={25}
+            width={width - theme.paddingX * 2}
+          />
         )}
       </svg>
     </Card>
@@ -87,7 +91,7 @@ function takeLanguages(
     if (langsTop.length >= count && other > langsTop[count - 1].total_seconds) {
       other += langsTop[count - 1].total_seconds;
     }
-    
+
     const otherHours = Math.floor(other / 3600);
     const otherMinutes = Math.floor((other % 3600) / 60);
     langsTop.push({

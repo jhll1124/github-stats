@@ -85,7 +85,7 @@ const Card: JSX.FC<CardProps> = ({
         y={
           theme.hideTitle
             ? theme.paddingY
-            : theme.paddingY + theme.textFont.size + 2
+            : theme.paddingY + theme.lineHeight
         }
       >
         {children}

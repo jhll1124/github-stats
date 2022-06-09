@@ -25,8 +25,7 @@ export interface Theme {
   textFont: Font;
   lineHeight: number;
 
-  progressBarColor?: string; // default to titleColor
-  progressBarBackgroundColor?: string; // default to textColor
+  progressBarBackgroundColor: string;
   hideProgressBar: boolean;
 }
 
@@ -58,6 +57,7 @@ const defaultTheme: Theme = {
   },
   lineHeight: 25,
 
+  progressBarBackgroundColor: '#ddd',
   hideProgressBar: false,
 };
 
