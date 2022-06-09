@@ -13,8 +13,8 @@ interface WakatimeCardProps {
   title: string;
   compact: boolean;
   width: number;
-  languagesCount?: number;
-  hideLanguages?: string[];
+  maxLanguagesCount: number;
+  hideLanguages: string[];
 }
 
 const WakatimeCard: JSX.FC<WakatimeCardProps> = ({
@@ -22,15 +22,15 @@ const WakatimeCard: JSX.FC<WakatimeCardProps> = ({
   title,
   compact,
   width,
-  languagesCount = stats.languages?.length ?? 0,
-  hideLanguages = [],
+  maxLanguagesCount,
+  hideLanguages,
 }) => {
   const theme = useTheme();
 
   const languages = takeLanguages(
     stats.languages,
     hideLanguages,
-    languagesCount
+    maxLanguagesCount
   );
 
   const height = compact
@@ -64,8 +64,9 @@ export default WakatimeCard;
 function takeLanguages(
   languages: WakaTimeData['languages'] | undefined,
   hide: string[],
-  count = 0
+  count: number
 ): WakaTimeData['languages'] {
+  const maxLanguagesCount = count > 0 ? count : languages?.length || 0;
   const hideLangs = new Set(hide.map((lang) => lang.trim().toLowerCase()));
   const langs =
     languages?.filter(
@@ -84,12 +85,15 @@ function takeLanguages(
         ?.total_seconds ?? 0;
 
     // Sum all the other languages
-    langsTop = langsNorm.slice(0, count);
-    langsNorm.slice(count).forEach((language) => {
+    langsTop = langsNorm.slice(0, maxLanguagesCount);
+    langsNorm.slice(maxLanguagesCount).forEach((language) => {
       other += language.total_seconds;
     });
-    if (langsTop.length >= count && other > langsTop[count - 1].total_seconds) {
-      other += langsTop[count - 1].total_seconds;
+    if (
+      langsTop.length >= maxLanguagesCount &&
+      other > langsTop[maxLanguagesCount - 1].total_seconds
+    ) {
+      other += langsTop[maxLanguagesCount - 1].total_seconds;
     }
 
     const otherHours = Math.floor(other / 3600);
@@ -108,9 +112,9 @@ function takeLanguages(
     });
     langsTop.sort((a, b) => b.total_seconds - a.total_seconds);
 
-    langsTop = langsTop.slice(0, count);
+    langsTop = langsTop.slice(0, maxLanguagesCount);
   } else {
-    langsTop = langs.slice(0, count);
+    langsTop = langs.slice(0, maxLanguagesCount);
   }
 
   const total = langsTop.reduce(
