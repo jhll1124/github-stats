@@ -5,11 +5,11 @@ USER deno
 COPY . /action
 WORKDIR /action
 
-RUN deno cache --import-map=import_map.json /action/src/action.ts
+RUN ["deno", "cache" ,"--import-map=/action/import_map.json", "/action/src/action.ts"]
 
 ENTRYPOINT ["deno", "run" , \
-"--import-map=import_map.json", \
+"--import-map=/action/import_map.json", \
 "--allow-env", \
 "--allow-net", \
-"--allow-write=.", \
+"--allow-write=/action", \
 "/action/src/action.ts"]
