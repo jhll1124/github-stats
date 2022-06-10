@@ -2,8 +2,8 @@ FROM denoland/deno:1.22.2
 
 USER deno
 
-COPY . /stats
-WORKDIR /stats
+COPY . /
+WORKDIR /
 
 RUN deno cache --import-map=import_map.json src/action.ts
 
