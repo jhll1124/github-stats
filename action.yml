@@ -4,11 +4,32 @@ author: 'Wybxc'
 inputs:
   wakatime-username:
     description: Your wakatime username.
-    required: true
+    required: false
+    default: ''
   wakatime-output-filename:
-    description: Your wakatime stats output filename.
+    description: The filename of the output svg file.
     required: false
     default: wakatime-stats.svg
+  wakatime-image-width:
+    description: The width of the image.
+    required: false
+    default: '495'
+  wakatime-compact-layout:
+    description: Use compact layout.
+    required: false
+    default: ''
+  wakatime-card-title:
+    description: The title of the image. Default is `<username>'s Wakatime Stats`.
+    required: false
+    default: ''
+  wakatime-max-languages-count:
+    description: The maximum number of languages to show. Default is to show all languages.
+    required: false
+    default: '0'
+  wakatime-hide-languages:
+    description: Hide the specified languages. Case insensitive. Split by comma(,) or by newlines.
+    required: false
+    default: ''
 runs:
   using: docker
   image: Dockerfile

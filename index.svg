@@ -1,0 +1,56 @@
+<svg width="495" height="195" viewBox="0 0 495 195" fill="none" xmlns="http://www.w3.org/2000/svg" aria-labelledby="descId">
+    <title id="descId">Most Used Languages</title>
+    <rect data-testid="card-bg" x=".5" y=".5" rx="4.5" height="99%" stroke="#e4e2e2" width="494" fill="#fffefe"/>
+    <g data-testid="card-title">
+        <text class="header" data-testid="header" transform="translate(25 35)">Most Used Languages</text>
+    </g>
+    <svg data-testid="main-card-body" y="60">
+        <svg>
+            <mask id="rect-mask">
+                <rect x="25" width="445" height="8" fill="#fff" rx="5"/>
+            </mask>
+            <path mask="url(#rect-mask)" data-testid="lang-progress" fill="#ddd" d="M25 0h445v8H25z"/>
+            <path mask="url(#rect-mask)" data-testid="lang-progress" fill="#3572A5" d="M25 0h181.56v8H25z"/>
+            <path mask="url(#rect-mask)" data-testid="lang-progress" fill="#f34b7d" d="M206.56 0h82.014v8H206.56z"/>
+            <path mask="url(#rect-mask)" data-testid="lang-progress" fill="#858585" d="M288.573 0h66.394v8h-66.394z"/>
+            <path mask="url(#rect-mask)" data-testid="lang-progress" fill="#2b7489" d="M354.967 0h47.571v8h-47.571z"/>
+            <path mask="url(#rect-mask)" data-testid="lang-progress" fill="#dea584" d="M402.538 0h23.718v8h-23.718z"/>
+            <path mask="url(#rect-mask)" data-testid="lang-progress" fill="#3D6117" d="M426.256 0h23.451v8h-23.451z"/>
+            <path mask="url(#rect-mask)" data-testid="lang-progress" fill="#f1e05a" d="M449.708 0h10.68v8h-10.68z"/>
+            <path mask="url(#rect-mask)" data-testid="lang-progress" fill="#292929" d="M460.388 0H470v8h-9.612z"/>
+            <g transform="translate(25 25)">
+                <circle cx="5" cy="6" r="5" fill="#3572A5"/>
+                <text data-testid="lang-name" x="15" y="10" class="lang-name">Python - 200 hrs 48 mins</text>
+            </g>
+            <g transform="translate(247.5 25)">
+                <circle cx="5" cy="6" r="5" fill="#f34b7d"/>
+                <text data-testid="lang-name" x="15" y="10" class="lang-name">C++ - 90 hrs 42 mins</text>
+            </g>
+            <g transform="translate(25 50)">
+                <circle cx="5" cy="6" r="5" fill="#858585"/>
+                <text data-testid="lang-name" x="15" y="10" class="lang-name">Other - 73 hrs 25 mins</text>
+            </g>
+            <g transform="translate(247.5 50)">
+                <circle cx="5" cy="6" r="5" fill="#2b7489"/>
+                <text data-testid="lang-name" x="15" y="10" class="lang-name">TypeScript - 52 hrs 37 mins</text>
+            </g>
+            <g transform="translate(25 75)">
+                <circle cx="5" cy="6" r="5" fill="#dea584"/>
+                <text data-testid="lang-name" x="15" y="10" class="lang-name">Rust - 26 hrs 15 mins</text>
+            </g>
+            <g transform="translate(247.5 75)">
+                <circle cx="5" cy="6" r="5" fill="#3D6117"/>
+                <text data-testid="lang-name" x="15" y="10" class="lang-name">TeX - 25 hrs 57 mins</text>
+            </g>
+            <g transform="translate(25 100)">
+                <circle cx="5" cy="6" r="5" fill="#f1e05a"/>
+                <text data-testid="lang-name" x="15" y="10" class="lang-name">JavaScript - 11 hrs 48 mins</text>
+            </g>
+            <g transform="translate(247.5 100)">
+                <circle cx="5" cy="6" r="5" fill="#292929"/>
+                <text data-testid="lang-name" x="15" y="10" class="lang-name">JSON - 10 hrs 36 mins</text>
+            </g>
+        </svg>
+    </svg>
+    <style>@keyframes fadeInAnimation{0%{opacity:0}}.lang-name{font:400 11px &apos;Segoe UI&apos;,Ubuntu,Sans-Serif;fill:#434d58}.header{font:600 18px &apos;Segoe UI&apos;,Ubuntu,Sans-Serif;fill:#2f80ed;animation:fadeInAnimation .8s ease-in-out forwards}@supports (-moz-appearance:auto){.header{font-size:15.3px}}</style>
+</svg>
