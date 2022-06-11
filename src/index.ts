@@ -11,10 +11,12 @@ import {
   args,
 } from 'args';
 
+import { Octokit } from 'octokit';
 import { allLanguages } from './common/languageColors.ts';
 import fileCommiter from './commiters/file.ts';
 import getRepositoryCommiter from './commiters/repository.ts';
 import logging from './common/logging.ts';
+import { queryDefaultBranchName } from './common/github.ts';
 import renderWakatime from './wakatime.tsx';
 
 const globalOptions = args
@@ -197,12 +199,21 @@ switch (parsed.tag) {
     if (commit) {
       if (!user) logging.error('Missing GitHub username.'), Deno.exit(1);
       if (!repo) logging.error('Missing GitHub repository.'), Deno.exit(1);
-      if (!branch)
-        logging.error('Missing GitHub repository branch.'), Deno.exit(1);
       if (!token)
         logging.error('Missing GitHub personal access token.'), Deno.exit(1);
 
-      commiters.push(getRepositoryCommiter(token, user, repo, branch));
+      const octokit = new Octokit({ auth: token });
+      const realBranch =
+        branch ||
+        (await queryDefaultBranchName(octokit, { owner: user, repo }));
+
+      commiters.push(
+        getRepositoryCommiter(octokit, {
+          owner: user,
+          repo,
+          branch: realBranch,
+        })
+      );
     }
     if (!commiters.length) commiters.push(fileCommiter);
 

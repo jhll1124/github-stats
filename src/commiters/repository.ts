@@ -3,27 +3,26 @@ import { Octokit } from 'octokit';
 import { encode } from 'base64';
 import { gitHashObject } from '../common/hash.ts';
 import logging from '../common/logging.ts';
+import { queryObjectHash } from '../common/github.ts';
+
+interface getRepositoryCommiterOptions {
+  owner: string;
+  repo: string;
+  branch: string;
+}
 
 export default function getRepositoryCommiter(
-  token: string,
-  owner: string,
-  repo: string,
-  branch: string
+  octokit: Octokit,
+  { owner, repo, branch }: getRepositoryCommiterOptions
 ): Commiter {
-  const octokit = new Octokit({ auth: token });
-
   return async function commit({ path, content }) {
     logging.verbose(1, 'start commit to github');
-    const shaQuery = await octokit.graphql(
-      `
-      query {
-        repository(owner: "${owner}", name: "${repo}") {
-          object(expression: "${branch}:${path}") { ... on Blob { oid } }
-        }
-      }
-      `
-    );
-    const sha = shaQuery.repository?.object?.oid;
+    const sha = await queryObjectHash(octokit, {
+      owner,
+      repo,
+      branch,
+      path,
+    });
     logging.verbose(1, 'origin sha:', sha);
 
     if (sha === (await gitHashObject(content))) {
@@ -36,10 +35,10 @@ export default function getRepositoryCommiter(
       owner,
       repo,
       path,
-      message: 'Update file',
+      message: `Update ${path} [Skip GitHub Action]`,
       ...(sha ? { sha } : {}),
       content: encode(content),
-      branch: branch,
+      branch,
     });
     logging.verbose(2, 'response:', data);
     logging.verbose(1, 'finish sending request');

@@ -2,6 +2,10 @@ name: GitHub Stats
 description: Generate your github readme stats.
 author: 'Wybxc'
 inputs:
+  output-action:
+    description: Output action, must be 'commit', 'pull-request', 'gists', or 'none'
+    required: false
+    default: 'commit'
   owner:
     description: GitHub username. Default is the repository owner using the action.
     required: false
@@ -14,10 +18,6 @@ inputs:
     description: GitHub repository branch. Default is the master or main branch.
     required: false
     default: ''
-  output-action:
-    description: Output action, must be one of 'commit' 'pull-request' 'gists'
-    required: false
-    default: 'commit'
   token:
     description: GitHub personal access token.
     required: true
@@ -50,6 +50,11 @@ inputs:
     description: Hide the specified languages. Case insensitive. Split by comma(,) or by newlines.
     required: false
     default: ''
+
+  verbose:
+    description: Verbose output. Default to 0.
+    required: false
+    default: '0'
 runs:
   using: docker
   image: Dockerfile

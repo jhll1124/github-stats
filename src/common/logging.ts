@@ -3,7 +3,18 @@ const logging = {
 
   // deno-lint-ignore no-explicit-any
   log(...args: any[]) {
-    console.log(0, ...args);
+    console.log(...args);
+  },
+
+  // deno-lint-ignore no-explicit-any
+  table(object: Record<string, any>) {
+    const flat = Object.fromEntries(
+      Object.entries(object).map(([key, value]) => [
+        key,
+        typeof value === 'object' ? value.toString() : value,
+      ])
+    );
+    console.table(flat);
   },
 
   // deno-lint-ignore no-explicit-any

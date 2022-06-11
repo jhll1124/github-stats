@@ -1,15 +1,13 @@
 FROM denoland/deno:1.22.2
 
-USER deno
+COPY . /github-stats
+WORKDIR /github-stats
 
-COPY . /action
-WORKDIR /action
-
-RUN ["deno", "cache" ,"--import-map=/action/import_map.json", "/action/src/action.ts"]
+RUN ["deno", "cache" ,"--import-map=/github-stats/import_map.json", "/github-stats/src/action.ts"]
 
 ENTRYPOINT ["deno", "run" , \
-"--import-map=/action/import_map.json", \
+"--import-map=/github-stats/import_map.json", \
 "--allow-env", \
 "--allow-net", \
-"--allow-write=/action", \
-"/action/src/action.ts"]
+"--allow-read=/github/workflow", \
+"/github-stats/src/action.ts"]
