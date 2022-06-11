@@ -1,3 +1,4 @@
+import type { Commiter } from './commiters/types.ts';
 import { ThemeProvider } from './themes/Theme.tsx';
 import WakatimeCard from './cards/WakatimeCard.tsx';
 import { chain } from './optimizers/core.ts';
@@ -15,6 +16,7 @@ interface Parameters {
   maxLanguagesCount: number;
   output: string;
   hideLanguages: string[];
+  commiters: Commiter[];
 }
 
 export default async function renderWakatime({
@@ -25,6 +27,7 @@ export default async function renderWakatime({
   maxLanguagesCount,
   output,
   hideLanguages,
+  commiters,
 }: Parameters) {
   logging.verbose(1, 'start rendering wakatime');
   logging.verbose(1, 'fetch wakatime stats');
@@ -55,6 +58,8 @@ export default async function renderWakatime({
   logging.verbose(2, optimized);
 
   logging.verbose(1, 'write svg');
-  await Deno.writeTextFile(output, optimized);
+  await Promise.all(
+    commiters.map((commiter) => commiter({ path: output, content: optimized }))
+  );
   logging.verbose(1, 'svg written');
 }

@@ -12,7 +12,7 @@ function getWakatimeConfig() {
   const output = core.getInput('wakatime-output-filename');
   const width = parseInt(core.getInput('wakatime-image-width'));
   const compact = core.getBooleanInput('wakatime-compact-layout');
-  const title = core.getInput('wakatime-card-title');
+  const title = core.getInput('wakatime-card-title') || `${username}'s Wakatime Stats`;
   const maxLanguagesCount = parseInt(
     core.getInput('wakatime-max-languages-count')
   );

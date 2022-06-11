@@ -1,7 +1,27 @@
-name: Github Stats
+name: GitHub Stats
 description: Generate your github readme stats.
 author: 'Wybxc'
 inputs:
+  owner:
+    description: GitHub username. Default is the repository owner using the action.
+    required: false
+    default: ''
+  repo:
+    description: GitHub repository. Default is the repository using the action.
+    required: false
+    default: ''
+  branch:
+    description: GitHub repository branch. Default is the master or main branch.
+    required: false
+    default: ''
+  output-action:
+    description: Output action, must be one of 'commit' 'pull-request' 'gists'
+    required: false
+    default: 'commit'
+  token:
+    description: GitHub personal access token.
+    required: true
+
   wakatime-username:
     description: Your wakatime username.
     required: false

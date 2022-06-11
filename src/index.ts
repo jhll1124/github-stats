@@ -12,15 +12,63 @@ import {
 } from 'args';
 
 import { allLanguages } from './common/languageColors.ts';
+import fileCommiter from './commiters/file.ts';
+import getRepositoryCommiter from './commiters/repository.ts';
 import logging from './common/logging.ts';
 import renderWakatime from './wakatime.tsx';
 
-const globalOptions = args.with(
-  CountFlag('verbose', {
-    alias: ['v'],
-    describe: 'Show verbose output. Use -vv for more verbose output.',
-  })
-);
+const globalOptions = args
+  .with(
+    CountFlag('verbose', {
+      alias: ['v'],
+      describe: 'Show verbose output. Use -vv for more verbose output.',
+    })
+  )
+  .with(
+    BinaryFlag('write', {
+      alias: ['W'],
+      describe: 'Write output to file.',
+    })
+  )
+  .with(
+    BinaryFlag('commit', {
+      alias: ['C'],
+      describe: 'Commit output to GitHub repository.',
+    })
+  )
+  .with(
+    PartialOption('user', {
+      type: Text,
+      alias: ['U'],
+      describe: 'GitHub username.',
+      default: '',
+    })
+  )
+  .with(
+    PartialOption('repo', {
+      type: Text,
+      alias: ['r'],
+      describe: 'GitHub repository.',
+      default: '',
+    })
+  )
+  .with(
+    PartialOption('branch', {
+      type: Text,
+      alias: ['b'],
+      describe: 'GitHub repository branch.',
+      default: '',
+      describeDefault: 'master or main branch',
+    })
+  )
+  .with(
+    PartialOption('token', {
+      type: Text,
+      alias: ['T'],
+      describe: 'GitHub personal access token.',
+      default: '',
+    })
+  );
 
 const wakatimeOptions = globalOptions
   .describe('Generate a wakatime stats.')
@@ -90,7 +138,7 @@ const wakatimeOptions = globalOptions
   );
 
 const parser = args
-  .describe('Github readme stats generator.')
+  .describe('GitHub readme stats generator.')
   .with(
     EarlyExitFlag('help', {
       alias: ['h'],
@@ -101,9 +149,12 @@ const parser = args
       },
     })
   )
-  .sub('help', args.describe('Print this message or the help of the given subcommand.'))
+  .sub(
+    'help',
+    args.describe('Print this message or the help of the given subcommand.')
+  )
   .sub('wakatime', wakatimeOptions);
-  
+
 const parsed = parser.parse(Deno.args);
 
 if (parsed.error) {
@@ -129,9 +180,31 @@ switch (parsed.tag) {
       title = `${username}'s Wakatime Stats`,
       'max-languages-count': maxLanguagesCount,
       'hide-languages': hideLanguages,
+
+      write,
+      commit,
+      user,
+      repo,
+      branch,
+      token,
+
       verbose,
     } = parsed.value.value;
     logging.setVerbose(verbose);
+
+    const commiters = [];
+    if (write) commiters.push(fileCommiter);
+    if (commit) {
+      if (!user) logging.error('Missing GitHub username.'), Deno.exit(1);
+      if (!repo) logging.error('Missing GitHub repository.'), Deno.exit(1);
+      if (!branch)
+        logging.error('Missing GitHub repository branch.'), Deno.exit(1);
+      if (!token)
+        logging.error('Missing GitHub personal access token.'), Deno.exit(1);
+
+      commiters.push(getRepositoryCommiter(token, user, repo, branch));
+    }
+    if (!commiters.length) commiters.push(fileCommiter);
 
     await renderWakatime({
       username,
@@ -141,6 +214,8 @@ switch (parsed.tag) {
       title,
       maxLanguagesCount: Math.floor(maxLanguagesCount),
       hideLanguages,
+      commiters,
     });
+    Deno.exit(0);
   }
 }

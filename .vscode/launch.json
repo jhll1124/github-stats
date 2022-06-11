@@ -9,11 +9,6 @@
             "name": "Launch Program",
             "type": "pwa-node",
             "cwd": "${workspaceFolder}",
-            "runtimeExecutable": "deno",
-            "runtimeArgs": [
-                "task",
-                "dev"
-            ],
             "attachSimplePort": 9229
         }
     ]
