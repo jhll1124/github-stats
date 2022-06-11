@@ -3,7 +3,7 @@
  * @module cards/Card
  */
 
-import * as JSX from '../common/jsx_extra.ts';
+import * as JSX from '../common/jsx-extra.ts';
 
 import { LinearGradient, firefoxFontSize, font } from '../themes/utils.tsx';
 import Style, { RenderStyle } from '../common/Style.tsx';

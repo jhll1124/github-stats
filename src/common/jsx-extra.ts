@@ -1,6 +1,6 @@
 /**
  * Extra Types for JSX.
- * @module common/jsx_extra
+ * @module common/jsx-extra
  */
 
 // deno-lint-ignore no-empty-interface

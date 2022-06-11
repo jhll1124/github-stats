@@ -1,4 +1,4 @@
-import * as JSX from '../common/jsx_extra.ts';
+import * as JSX from '../common/jsx-extra.ts';
 
 import { font, measureText } from '../themes/utils.tsx';
 

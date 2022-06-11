@@ -4,7 +4,7 @@ import SVGO from 'svgo';
  * Optimizes SVG code, using SVGO.
  * @param svg SVG code.
  */
-export default function optimize(svg: string) {
+export default function optimizeSvg(svg: string) {
   const result = SVGO.optimize(svg, {
     multipass: true,
     plugins: [

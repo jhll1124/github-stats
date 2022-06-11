@@ -1,4 +1,4 @@
-import { FC } from '../common/jsx_extra.ts';
+import { FC } from '../common/jsx-extra.ts';
 import { useTheme } from './Theme.tsx';
 
 export interface Gradient {
