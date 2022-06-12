@@ -20,11 +20,7 @@ export default async function getRepositoryCommiter(
 
   return async function commit({ path, content }) {
     logging.verbose(1, "start commit to github");
-    const {
-      repository: {
-        object: { oid: sha = "" } = {},
-      } = {},
-    } = await octokit.graphql(
+    const query = await octokit.graphql(
       `#graphql
       query objectHash($owner: String!, $repo: String!, $path: String!) {
         repository(owner: $owner, name: $repo) {
@@ -38,6 +34,7 @@ export default async function getRepositoryCommiter(
         path: `${realBranch}:${path}`,
       },
     );
+    const sha = query?.repository?.object?.oid || "";
     logging.verbose(1, "origin sha:", sha);
 
     if (sha === (await gitHashObject(content))) {

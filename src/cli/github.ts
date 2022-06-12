@@ -11,7 +11,7 @@ import { Parsed, globalOptions } from "./global.ts";
 
 import ensureOctokit from "../pipeline/ensure-octokit.ts";
 import logging from "../common/logging.ts";
-import renderGitHubStats from "../pipeline/render-github.tsx";
+import renderGitHubStats from "../pipeline/render-github-stats.tsx";
 import { setUpCommitersForCli } from "../pipeline/setup-commiters.ts";
 import setUpVerbose from "../pipeline/setup-verbose.ts";
 import writeSvg from "../pipeline/write-svg.ts";
@@ -78,12 +78,12 @@ export const githubOptions = globalOptions.describe(
 
 export async function dealGitHubCommand({
   username: githubUserName,
-  output: githubOutput,
-  width: githubWidth,
-  title: githubTitle,
+  output: githubOutputFileName,
+  width: githubImageWidth,
+  title: githubCardTitle,
   "collab-stars": githubIncludeCollaboratedStargazers,
   "last-year": githubOnlyLastYear,
-  hide: githubHideStats,
+  hide: githubHideStatItems,
   write: shouldWrite,
   commit: shouldCommit,
   repo: repoCommitTo,
@@ -93,18 +93,12 @@ export async function dealGitHubCommand({
 }: Parsed<typeof githubOptions>) {
   await Promise.resolve({
     githubUserName,
-    githubOutput,
-    githubWidth,
-    githubTitle,
+    githubOutputFileName,
+    githubImageWidth,
+    githubCardTitle,
     githubIncludeCollaboratedStargazers,
     githubOnlyLastYear,
-    githubHideStats: githubHideStats as (
-      | "stars"
-      | "commits"
-      | "prs"
-      | "issues"
-      | "contributions"
-    )[],
+    githubHideStatItems: githubHideStatItems,
     shouldWrite,
     shouldCommit,
     repoCommitTo,

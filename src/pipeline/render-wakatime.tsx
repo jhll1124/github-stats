@@ -7,20 +7,20 @@ import { renderSSR } from "nano-jsx";
 export default async function renderWakatime<
   T extends {
     wakatimeUserName: string;
-    wakatimeOutput: string;
-    wakatimeWidth: number;
-    wakatimeCompact: boolean;
-    wakatimeTitle?: string;
+    wakatimeOutputFileName: string;
+    wakatimeImageWidth: number;
+    wakatimeCompactLayout: boolean;
+    wakatimeCardTitle?: string;
     wakatimeMaxLanguagesCount: number;
     wakatimeHideLanguages: string[];
     results?: { path: string; content: string }[];
   },
 >({
   wakatimeUserName: username,
-  wakatimeOutput: output,
-  wakatimeWidth: width,
-  wakatimeCompact: compact,
-  wakatimeTitle: title,
+  wakatimeOutputFileName: output,
+  wakatimeImageWidth: width,
+  wakatimeCompactLayout: compact,
+  wakatimeCardTitle: title,
   wakatimeMaxLanguagesCount: maxLanguagesCount,
   wakatimeHideLanguages: hideLanguages,
   results = [],

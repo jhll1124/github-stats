@@ -1,4 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
+import * as github from "@actions/github";
 
 import { Octokit as OctokitOrigin } from "octokit";
 
@@ -8,5 +9,8 @@ export interface Octokit {
 }
 
 export default function getOctokit(token: string): Octokit {
+  if (github.context.action) {
+    return github.getOctokit(token);
+  }
   return new OctokitOrigin({ auth: token });
 }

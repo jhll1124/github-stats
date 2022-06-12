@@ -78,10 +78,10 @@ export const wakatimeOptions = globalOptions.describe(
 
 export async function dealWakatimeCommand({
   username: wakatimeUserName,
-  output: wakatimeOutput,
-  width: wakatimeWidth,
-  compact: wakatimeCompact,
-  title: wakatimeTitle,
+  output: wakatimeOutputFileName,
+  width: wakatimeImageWidth,
+  compact: wakatimeCompactLayout,
+  title: wakatimeCardTitle,
   "max-languages-count": wakatimeMaxLanguagesCount,
   "hide-languages": wakatimeHideLanguages,
   write: shouldWrite,
@@ -93,10 +93,10 @@ export async function dealWakatimeCommand({
 }: Parsed<typeof wakatimeOptions>) {
   await Promise.resolve({
     wakatimeUserName,
-    wakatimeOutput,
-    wakatimeWidth,
-    wakatimeCompact,
-    wakatimeTitle,
+    wakatimeOutputFileName,
+    wakatimeImageWidth,
+    wakatimeCompactLayout,
+    wakatimeCardTitle,
     wakatimeMaxLanguagesCount: Math.floor(wakatimeMaxLanguagesCount),
     wakatimeHideLanguages,
     shouldWrite,

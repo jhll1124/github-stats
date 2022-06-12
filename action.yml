@@ -6,12 +6,8 @@ inputs:
     description: Output action, must be 'commit', 'pull-request', 'gists', or 'none'
     required: false
     default: 'commit'
-  owner:
-    description: GitHub username. Default is the repository owner using the action.
-    required: false
-    default: ''
   repo:
-    description: GitHub repository. Default is the repository using the action.
+    description: GitHub repository, e.g. Wybxc/github-stats. Default is the repository using the action.
     required: false
     default: ''
   branch:
@@ -21,6 +17,37 @@ inputs:
   token:
     description: GitHub personal access token.
     required: true
+
+  github-username:
+    description: Your github username.
+    required: false
+    default: ''
+  github-output-filename:
+    description: The filename of the output svg file.
+    required: false
+    default: github-stats.svg
+  github-image-width:
+    description: The width of the image.
+    required: false
+    default: '495'
+  github-card-title:
+    description: The title of the github card. Default is `<username>'s GitHub Stats`.
+    required: false
+    default: 'GitHub Stats'
+  github-include-collaborated-stargazers:
+    description: Include stars from repositories of which you are collaborators.
+    required: false
+    default: 'true'
+  github-only-last-year:
+    description: Only show stats from the last year.
+    required: false
+    default: 'false'
+  github-hide-stat-items:
+    description: |
+      Hide specified stat items. Accepted values are "stars", "commits", "prs", "issues", and "contributions".
+      Split by comma(,) or by newlines.
+    required: false
+    default: ''
 
   wakatime-username:
     description: Your wakatime username.
@@ -37,9 +64,9 @@ inputs:
   wakatime-compact-layout:
     description: Use compact layout.
     required: false
-    default: ''
+    default: 'false'
   wakatime-card-title:
-    description: The title of the image. Default is `<username>'s Wakatime Stats`.
+    description: The title of the card. Default is `<username>'s Wakatime Stats`.
     required: false
     default: ''
   wakatime-max-languages-count:
@@ -47,7 +74,7 @@ inputs:
     required: false
     default: '0'
   wakatime-hide-languages:
-    description: Hide the specified languages. Case insensitive. Split by comma(,) or by newlines.
+    description: Hide specified languages. Case insensitive. Split by comma(,) or by newlines.
     required: false
     default: ''
 

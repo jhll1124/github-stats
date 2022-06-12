@@ -10,29 +10,23 @@ export default async function renderGitHubStats<
   T extends {
     githubUserName: string;
     octokit: Octokit;
-    githubTitle?: string;
-    githubWidth: number;
+    githubCardTitle?: string;
+    githubImageWidth: number;
     githubIncludeCollaboratedStargazers: boolean;
     githubOnlyLastYear: boolean;
-    githubHideStats: (
-      | "stars"
-      | "commits"
-      | "prs"
-      | "issues"
-      | "contributions"
-    )[];
-    githubOutput: string;
+    githubHideStatItems: string[];
+    githubOutputFileName: string;
     results?: { path: string; content: string }[];
   },
 >({
   githubUserName: user,
   octokit,
-  githubTitle: title,
-  githubWidth: width,
+  githubCardTitle: title,
+  githubImageWidth: width,
   githubIncludeCollaboratedStargazers: includeCollaboratedStargazers,
   githubOnlyLastYear: onlyLastYear,
-  githubHideStats: hideStats,
-  githubOutput: output,
+  githubHideStatItems: hideStats,
+  githubOutputFileName: output,
   results = [],
   ...env
 }: T) {
