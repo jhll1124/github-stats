@@ -1,5 +1,7 @@
 import * as JSX from '../common/jsx-extra.ts';
 
+import { Commit, Contribution, Issue, PullRequest, Star } from './icons.tsx';
+
 import Card from './Card.tsx';
 import { FlexLayout } from './Layout.tsx';
 import { GitHubUserData } from '../fetchers/github-user-fetcher.ts';
@@ -28,13 +30,14 @@ const GitHubStatsCard: JSX.FC<GitHubStatsCardProps> = ({
 }) => {
   const theme = useTheme();
 
-  const statItems: [string, number][] = [];
+  const statItems: [string, number, JSX.Element][] = [];
   if (!hideStats.includes('stars')) {
     statItems.push([
       'Total Stars Earned:',
       includeCollaboratedStargazers
         ? stats.ownedStargazers + stats.collaboratedStargazers
         : stats.ownedStargazers,
+      <Star />,
     ]);
   }
   if (!hideStats.includes('commits')) {
@@ -43,18 +46,21 @@ const GitHubStatsCard: JSX.FC<GitHubStatsCardProps> = ({
         ? `Total Commits (${new Date().getFullYear() - 1}):`
         : 'Total Commits:',
       onlyLastYear ? stats.total.commits : stats.lastYear.commits,
+      <Commit />,
     ]);
   }
   if (!hideStats.includes('prs')) {
     statItems.push([
       'Total PRs:',
       onlyLastYear ? stats.total.pullRequests : stats.lastYear.pullRequests,
+      <PullRequest />,
     ]);
   }
   if (!hideStats.includes('issues')) {
     statItems.push([
       'Total Issues:',
       onlyLastYear ? stats.total.issues : stats.lastYear.issues,
+      <Issue />,
     ]);
   }
   if (!hideStats.includes('contributions')) {
@@ -63,6 +69,7 @@ const GitHubStatsCard: JSX.FC<GitHubStatsCardProps> = ({
       onlyLastYear
         ? stats.total.repositoriesContributedTo
         : stats.lastYear.repositoriesContributedTo,
+      <Contribution />,
     ]);
   }
 
@@ -85,10 +92,11 @@ const GitHubStatsCard: JSX.FC<GitHubStatsCardProps> = ({
       )}
       <svg x="0" y="0" width="100%">
         <FlexLayout gap={theme.lineHeight} direction="vertical">
-          {statItems.map(([label, value], index) => (
+          {statItems.map(([label, value, icon], index) => (
             <Stagger
               label={label}
               value={value.toString()}
+              icon={icon}
               animationDelay={450 + 150 * index}
             />
           ))}
@@ -103,8 +111,9 @@ export default GitHubStatsCard;
 const Stagger: JSX.FC<{
   label: string;
   value: string;
+  icon: JSX.Element;
   animationDelay: number;
-}> = ({ label, value, animationDelay }) => {
+}> = ({ label, value, icon, animationDelay }) => {
   const theme = useTheme();
 
   return (
@@ -121,6 +130,9 @@ const Stagger: JSX.FC<{
           }
           .bold {
             font: ${font(theme.statBoldFont)};
+          }
+          .icon {
+            fill: ${theme.iconColor};
           }
         `}
       </Style>
@@ -148,10 +160,29 @@ const Stagger: JSX.FC<{
         </Style>
       )}
 
-      <text class="stat bold" y={theme.lineHeight / 2}>
+      {theme.showIcon ? (
+        <svg
+          class="icon"
+          viewBox="0 0 16 16"
+          version="1.1"
+          width="16"
+          height="16"
+        >
+          {icon}
+        </svg>
+      ) : null}
+      <text
+        class="stat bold"
+        x={theme.showIcon ? 25 : 0}
+        y={theme.lineHeight / 2}
+      >
         {label}
       </text>
-      <text class="stat" x="170" y={theme.lineHeight / 2}>
+      <text
+        class="stat"
+        x={(theme.showIcon ? 25 : 0) + 145}
+        y={theme.lineHeight / 2}
+      >
         {value}
       </text>
     </g>
