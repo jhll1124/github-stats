@@ -33,7 +33,7 @@ inputs:
   github-card-title:
     description: The title of the github card. Default is `<username>'s GitHub Stats`.
     required: false
-    default: 'GitHub Stats'
+    default: ''
   github-include-collaborated-stargazers:
     description: Include stars from repositories of which you are collaborators.
     required: false
