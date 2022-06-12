@@ -4,7 +4,6 @@ import { Octokit } from 'octokit';
 import { ThemeProvider } from './themes/Theme.tsx';
 import { chain } from './optimizers/core.ts';
 import fetchGitHubUser from './fetchers/github-user-fetcher.ts';
-import fileCommiter from './commiters/file.ts';
 import formatSvg from './optimizers/format-svg.ts';
 import hydrationStyle from "./optimizers/hydration-style.ts";
 import logging from './common/logging.ts';
@@ -55,16 +54,3 @@ export default async function renderGitHubStats({
   );
   logging.verbose(1, 'svg written');
 }
-
-logging.setVerbose(1);
-const octokit = new Octokit({
-  auth: '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',
-});
-await renderGitHubStats({
-  user: 'wybxc',
-  octokit,
-  width: 495,
-  output: './test-data/github-stats.svg',
-  commiters: [fileCommiter],
-});
-Deno.exit(0);
