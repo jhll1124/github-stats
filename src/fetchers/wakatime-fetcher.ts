@@ -58,18 +58,22 @@ export interface WakaTimeData {
   writes_only: boolean;
 }
 
+interface WakaTimeFetcherOptions {
+  username: string;
+  apiDomain?: string;
+  range?:
+    | ""
+    | "last_7_days"
+    | "last_30_days"
+    | "last_6_months"
+    | "last_year";
+}
+
 export async function fetchWakatimeStats(
-  username: string,
-  api_domain = 'wakatime.com',
-  range:
-    | ''
-    | 'last_7_days'
-    | 'last_30_days'
-    | 'last_6_months'
-    | 'last_year' = ''
+  { username, apiDomain = "wakatime.com", range = "" }: WakaTimeFetcherOptions,
 ): Promise<WakaTimeData> {
   const response = await fetch(
-    `https://${api_domain}/api/v1/users/${username}/stats/${range}?is_including_today=true`
+    `https://${apiDomain}/api/v1/users/${username}/stats/${range}?is_including_today=true`,
   );
 
   const data = await response.json();

@@ -27,6 +27,10 @@ export interface Theme {
 
   progressBarBackgroundColor: string;
   hideProgressBar: boolean;
+
+  rankBackgroundColor: string;
+  rankForegroundColor: string;
+  hideRank: boolean;
 }
 
 const defaultTheme: Theme = {
@@ -59,6 +63,10 @@ const defaultTheme: Theme = {
 
   progressBarBackgroundColor: '#ddd',
   hideProgressBar: false,
+
+  rankBackgroundColor: '#2f80ed33',
+  rankForegroundColor: '#2f80edcc',
+  hideRank: false,
 };
 
 const ThemeContext = createContext(defaultTheme);

@@ -1,16 +1,14 @@
 import * as JSX from '../common/jsx-extra.ts';
 
-import { CompactLanguageList, CompactProgressBar } from './Compact.tsx';
-import { NormalLanguage, NormalLanguageList } from './Languages.tsx';
-
 import Card from './Card.tsx';
-import { FlexLayout } from './Layout.tsx';
+import { CompactLanguageList } from './Compact.tsx';
+import { NormalLanguageList } from './Languages.tsx';
 import { WakaTimeData } from '../fetchers/wakatime-fetcher.ts';
 import { useTheme } from '../themes/Theme.tsx';
 
 interface WakatimeCardProps {
   stats: WakaTimeData;
-  title: string;
+  title?: string;
   compact: boolean;
   width: number;
   maxLanguagesCount: number;
@@ -19,7 +17,7 @@ interface WakatimeCardProps {
 
 const WakatimeCard: JSX.FC<WakatimeCardProps> = ({
   stats,
-  title,
+  title = `${stats.username}'s Wakatime Stats`,
   compact,
   width,
   maxLanguagesCount,

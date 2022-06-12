@@ -5,9 +5,7 @@
 
 import * as JSX from '../common/jsx-extra.ts';
 
-import { LinearGradient, firefoxFontSize, font } from '../themes/utils.tsx';
-import Style, { RenderStyle } from '../common/Style.tsx';
-
+import { LinearGradient } from '../themes/utils.tsx';
 import Title from './Title.tsx';
 import { useTheme } from '../themes/Theme.tsx';
 
@@ -17,17 +15,6 @@ interface CardProps {
   title: string;
   titlePrefixIcon?: string;
 }
-
-/*
-@keyframes scaleInAnimation {
-          0% {
-            transform: translate(-5px, 5px) scale(0);
-          }
-          100% {
-            transform: translate(-5px, 5px) scale(1);
-          }
-        }
- */
 
 const Card: JSX.FC<CardProps> = ({
   width,
@@ -56,6 +43,8 @@ const Card: JSX.FC<CardProps> = ({
       aria-labelledby="descId"
     >
       <title id="descId">{title}</title>
+
+      <style>#_STYLE_PLACEHOLDER_#</style>
 
       {defs ? <defs>{defs}</defs> : null}
 
@@ -89,9 +78,7 @@ const Card: JSX.FC<CardProps> = ({
         }
       >
         {children}
-      </svg>
-
-      <RenderStyle />
+      </svg>      
     </svg>
   );
 };

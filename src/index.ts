@@ -179,7 +179,7 @@ switch (parsed.tag) {
       output,
       width,
       compact,
-      title = `${username}'s Wakatime Stats`,
+      title,
       'max-languages-count': maxLanguagesCount,
       'hide-languages': hideLanguages,
 

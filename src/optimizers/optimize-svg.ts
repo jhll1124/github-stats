@@ -16,6 +16,8 @@ export default function optimizeSvg(svg: string) {
             inlineStyles: false,
             removeViewBox: false,
             removeTitle: false,
+            removeHiddenElems: false,
+            minifyStyles: false,
           },
         },
       },

@@ -3,6 +3,7 @@
         "nano-jsx": "https://deno.land/x/nano_jsx@v0.0.32/mod.ts",
         "nano-jsx/jsx-runtime": "https://deno.land/x/nano_jsx@v0.0.32/jsx-runtime/index.ts",
         "svgo": "https://esm.sh/svgo@2.8.0",
+        "csso": "https://unpkg.com/csso",
         "xml-formatter": "https://esm.sh/xml-formatter@2.6.1",
         "args": "https://deno.land/x/args@2.1.1/index.ts",
         "@actions/core": "https://esm.sh/@actions/core@1.8.2",

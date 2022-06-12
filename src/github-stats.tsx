@@ -1,52 +1,43 @@
-import type { Commiter } from './commiters/types.ts';
+import { Commiter } from './commiters/types.ts';
+import GitHubStatsCard from './cards/GitHubStatsCard.tsx';
+import { Octokit } from 'octokit';
 import { ThemeProvider } from './themes/Theme.tsx';
-import WakatimeCard from './cards/WakatimeCard.tsx';
 import { chain } from './optimizers/core.ts';
-import { fetchWakatimeStats } from './fetchers/wakatime-fetcher.ts';
+import fetchGitHubUser from './fetchers/github-user-fetcher.ts';
+import fileCommiter from './commiters/file.ts';
 import formatSvg from './optimizers/format-svg.ts';
-import hydrationStyle from './optimizers/hydration-style.ts';
+import hydrationStyle from "./optimizers/hydration-style.ts";
 import logging from './common/logging.ts';
 import optimizeSvg from './optimizers/optimize-svg.ts';
 import { renderSSR } from 'nano-jsx';
 
 interface Parameters {
-  username: string;
+  user: string;
+  octokit: Octokit;
   title?: string;
-  compact: boolean;
   width: number;
-  maxLanguagesCount: number;
   output: string;
-  hideLanguages: string[];
   commiters: Commiter[];
 }
 
-export default async function renderWakatime({
-  username,
+export default async function renderGitHubStats({
+  user,
+  octokit,
   title,
-  compact,
   width,
-  maxLanguagesCount,
   output,
-  hideLanguages,
   commiters,
 }: Parameters) {
-  logging.verbose(1, 'start rendering wakatime');
-  logging.verbose(1, 'fetch wakatime stats');
-  const stats = await fetchWakatimeStats({ username });
+  logging.verbose(1, 'start render github stats');
+  logging.verbose(1, 'fetch github stats');
+  const stats = await fetchGitHubUser({ user, octokit });
   logging.verbose(1, 'stats fetched');
   logging.verbose(2, stats);
 
   logging.verbose(1, 'generate svg');
   const result = renderSSR(
     <ThemeProvider>
-      <WakatimeCard
-        stats={stats}
-        title={title}
-        compact={compact}
-        width={width}
-        maxLanguagesCount={maxLanguagesCount}
-        hideLanguages={hideLanguages}
-      />
+      <GitHubStatsCard stats={stats} title={title} width={width} />
     </ThemeProvider>
   );
   logging.verbose(1, 'svg generated');
@@ -64,3 +55,16 @@ export default async function renderWakatime({
   );
   logging.verbose(1, 'svg written');
 }
+
+logging.setVerbose(1);
+const octokit = new Octokit({
+  auth: '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',
+});
+await renderGitHubStats({
+  user: 'wybxc',
+  octokit,
+  width: 495,
+  output: './test-data/github-stats.svg',
+  commiters: [fileCommiter],
+});
+Deno.exit(0);
