@@ -11,8 +11,8 @@ const logging = {
     const flat = Object.fromEntries(
       Object.entries(object).map(([key, value]) => [
         key,
-        typeof value === 'object' ? value.toString() : value,
-      ])
+        typeof value === "object" ? value.toString() : value,
+      ]),
     );
     console.table(flat);
   },

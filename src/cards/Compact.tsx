@@ -1,11 +1,11 @@
-import * as JSX from '../common/jsx-extra.ts';
+import * as JSX from "../common/jsx-extra.ts";
 
-import { Language, Languages } from './Languages.tsx';
+import { Language, Languages } from "./Languages.tsx";
 
-import Style from '../common/Style.tsx';
-import { font } from '../themes/utils.tsx';
-import getLanguageColor from '../common/languageColors.ts';
-import { useTheme } from '../themes/Theme.tsx';
+import Style from "../common/Style.tsx";
+import { font } from "../themes/utils.tsx";
+import getLanguageColor from "../common/languageColors.ts";
+import { useTheme } from "../themes/Theme.tsx";
 
 export const CompactLanguageList: JSX.FC<{
   languages: Languages;
@@ -33,14 +33,16 @@ export const CompactLanguage: JSX.FC<{
   const theme = useTheme();
   return (
     <g transform={`translate(${x}, ${y})`}>
-      <Style>{`
+      <Style>
+        {`
         .lang-name {
           font: ${font(theme.textFont)};
           fill: ${theme.textColor};
         }
-      `}</Style>
+      `}
+      </Style>
       <circle cx="5" cy="6" r="5" fill={getLanguageColor(language.name)} />
-      <text data-testid="lang-name" x="15" y="10" class="lang-name">
+      <text x="15" y="10" class="lang-name">
         {language.name} - {language.text}
       </text>
     </g>
@@ -68,7 +70,6 @@ export const CompactProgressBar: JSX.FC<{
       </mask>
       <rect
         mask="url(#rect-mask)"
-        data-testid="lang-progress"
         x={theme.paddingX}
         y={0}
         width={width}
@@ -79,7 +80,6 @@ export const CompactProgressBar: JSX.FC<{
         const output = (
           <rect
             mask="url(#rect-mask)"
-            data-testid="lang-progress"
             x={progressOffset * width + theme.paddingX}
             y={0}
             width={(language.percent * width) / 100}

@@ -1,10 +1,10 @@
-import * as JSX from '../common/jsx-extra.ts';
+import * as JSX from "../common/jsx-extra.ts";
 
-import Card from './Card.tsx';
-import { CompactLanguageList } from './Compact.tsx';
-import { NormalLanguageList } from './Languages.tsx';
-import { WakaTimeData } from '../fetchers/wakatime-fetcher.ts';
-import { useTheme } from '../themes/Theme.tsx';
+import Card from "./Card.tsx";
+import { CompactLanguageList } from "./Compact.tsx";
+import { NormalLanguageList } from "./Languages.tsx";
+import { WakaTimeData } from "../fetchers/wakatime-fetcher.ts";
+import { useTheme } from "../themes/Theme.tsx";
 
 interface WakatimeCardProps {
   stats: WakaTimeData;
@@ -28,7 +28,7 @@ const WakatimeCard: JSX.FC<WakatimeCardProps> = ({
   const languages = takeLanguages(
     stats.languages,
     hideLanguages,
-    maxLanguagesCount
+    maxLanguagesCount,
   );
 
   const height = compact
@@ -40,18 +40,20 @@ const WakatimeCard: JSX.FC<WakatimeCardProps> = ({
   return (
     <Card title={title} width={width} height={height}>
       <svg x="0" y="0" width="100%">
-        {compact ? (
-          <CompactLanguageList
-            languages={languages}
-            width={width - theme.paddingX * 2}
-          />
-        ) : (
-          <NormalLanguageList
-            languages={languages}
-            top={25}
-            width={width - theme.paddingX * 2}
-          />
-        )}
+        {compact
+          ? (
+            <CompactLanguageList
+              languages={languages}
+              width={width - theme.paddingX * 2}
+            />
+          )
+          : (
+            <NormalLanguageList
+              languages={languages}
+              top={25}
+              width={width - theme.paddingX * 2}
+            />
+          )}
       </svg>
     </Card>
   );
@@ -60,27 +62,27 @@ const WakatimeCard: JSX.FC<WakatimeCardProps> = ({
 export default WakatimeCard;
 
 function takeLanguages(
-  languages: WakaTimeData['languages'] | undefined,
+  languages: WakaTimeData["languages"] | undefined,
   hide: string[],
-  count: number
-): WakaTimeData['languages'] {
+  count: number,
+): WakaTimeData["languages"] {
   const maxLanguagesCount = count > 0 ? count : languages?.length || 0;
   const hideLangs = new Set(hide.map((lang) => lang.trim().toLowerCase()));
-  const langs =
-    languages?.filter(
-      (language) =>
-        !hideLangs.has(language.name.trim().toLowerCase()) &&
-        (language.hours || language.minutes)
-    ) ?? [];
+  const langs = languages?.filter(
+    (language) =>
+      !hideLangs.has(language.name.trim().toLowerCase()) &&
+      (language.hours || language.minutes),
+  ) ?? [];
 
   let langsTop;
-  if (!hideLangs.has('other')) {
+  if (!hideLangs.has("other")) {
     const langsNorm = langs.filter(
-      (language) => language.name.trim().toLowerCase() !== 'other'
+      (language) => language.name.trim().toLowerCase() !== "other",
     );
-    let other =
-      langs.find((language) => language.name.trim().toLowerCase() === 'other')
-        ?.total_seconds ?? 0;
+    let other = langs.find((language) =>
+      language.name.trim().toLowerCase() === "other"
+    )
+      ?.total_seconds ?? 0;
 
     // Sum all the other languages
     langsTop = langsNorm.slice(0, maxLanguagesCount);
@@ -97,7 +99,7 @@ function takeLanguages(
     const otherHours = Math.floor(other / 3600);
     const otherMinutes = Math.floor((other % 3600) / 60);
     langsTop.push({
-      name: 'Other',
+      name: "Other",
       hours: otherHours,
       minutes: otherMinutes,
       text: otherHours
@@ -117,7 +119,7 @@ function takeLanguages(
 
   const total = langsTop.reduce(
     (total, language) => total + language.total_seconds,
-    0
+    0,
   );
   langsTop.forEach((language) => {
     language.percent = +((language.total_seconds * 100) / total).toFixed(2);

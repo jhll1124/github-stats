@@ -4,7 +4,7 @@
  * @module common/Style
  */
 
-import * as JSX from '../common/jsx-extra.ts';
+import * as JSX from "../common/jsx-extra.ts";
 
 export const globalStyle: string[] = [];
 

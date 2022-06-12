@@ -1,8 +1,8 @@
-import * as JSX from '../common/jsx-extra.ts';
+import * as JSX from "../common/jsx-extra.ts";
 
 export const FlexLayout: JSX.FC<{
   gap: number;
-  direction: 'horizon' | 'vertical';
+  direction: "horizon" | "vertical";
   sizes?: number[];
 }> = ({ gap, direction, sizes = [], children }) => {
   const items = children instanceof Array ? children : [children];
@@ -10,10 +10,9 @@ export const FlexLayout: JSX.FC<{
   return (
     <>
       {items.filter(Boolean).map((item, i) => {
-        const transform =
-          direction === 'horizon'
-            ? `translate(${size}, 0)`
-            : `translate(0, ${size})`;
+        const transform = direction === "horizon"
+          ? `translate(${size}, 0)`
+          : `translate(0, ${size})`;
         size += sizes[i] ?? 0 + gap;
         return (
           <g key={i} transform={transform}>

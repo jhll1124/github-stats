@@ -1,4 +1,4 @@
-import SVGO from 'svgo';
+import SVGO from "svgo";
 
 /**
  * Optimizes SVG code, using SVGO.
@@ -9,7 +9,7 @@ export default function optimizeSvg(svg: string) {
     multipass: true,
     plugins: [
       {
-        name: 'preset-default',
+        name: "preset-default",
         params: {
           overrides: {
             //Force CSS style consistency
@@ -22,9 +22,9 @@ export default function optimizeSvg(svg: string) {
         },
       },
       //Additional cleanup
-      'cleanupListOfValues',
-      'removeRasterImages',
-      'removeScriptElement',
+      "cleanupListOfValues",
+      "removeRasterImages",
+      "removeScriptElement",
     ],
   });
   if (result.error !== undefined) throw Error(result.error);

@@ -1,11 +1,11 @@
-import * as JSX from '../common/jsx-extra.ts';
+import * as JSX from "../common/jsx-extra.ts";
 
-import { font, measureText } from '../themes/utils.tsx';
+import { font, measureText } from "../themes/utils.tsx";
 
-import { FlexLayout } from './Layout.tsx';
-import Style from '../common/Style.tsx';
-import getLanguageColor from '../common/languageColors.ts';
-import { useTheme } from '../themes/Theme.tsx';
+import { FlexLayout } from "./Layout.tsx";
+import Style from "../common/Style.tsx";
+import getLanguageColor from "../common/languageColors.ts";
+import { useTheme } from "../themes/Theme.tsx";
 
 export interface Language {
   name: string;
@@ -50,12 +50,14 @@ export const NormalLanguage: JSX.FC<{
 
   return (
     <g transform={`translate(${top}, 0)`}>
-      <Style>{`
+      <Style>
+        {`
         .lang-name {
           font: ${font(theme.textFont)};
           fill: ${theme.textColor};
         }
-      `}</Style>
+      `}
+      </Style>
       <text class="lang-name" x={2} y={15} data-testid={language.name}>
         {language.name}
       </text>
@@ -88,7 +90,8 @@ export const NormalProgressBar: JSX.FC<{
         width="100%"
         height="8"
         fill={theme.progressBarBackgroundColor}
-      ></rect>
+      >
+      </rect>
       <rect
         height="8"
         fill={getLanguageColor(language.name)}
@@ -96,9 +99,9 @@ export const NormalProgressBar: JSX.FC<{
         ry="5"
         x="0"
         y="0"
-        data-testid="lang-progress"
         width={`${language.percent}%`}
-      ></rect>
+      >
+      </rect>
     </svg>
   );
 };

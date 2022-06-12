@@ -1,4 +1,5 @@
 import {
+  args,
   BinaryFlag,
   CountFlag,
   DrainOption,
@@ -8,154 +9,153 @@ import {
   Option,
   PartialOption,
   Text,
-  args,
-} from 'args';
+} from "args";
 
-import { Octokit } from 'octokit';
-import { allLanguages } from './common/languageColors.ts';
-import fileCommiter from './commiters/file.ts';
-import getRepositoryCommiter from './commiters/repository.ts';
-import logging from './common/logging.ts';
-import { queryDefaultBranchName } from './common/github.ts';
-import renderWakatime from './wakatime.tsx';
+import { Octokit } from "octokit";
+import { allLanguages } from "./common/languageColors.ts";
+import fileCommiter from "./commiters/file.ts";
+import getRepositoryCommiter from "./commiters/repository.ts";
+import logging from "./common/logging.ts";
+import { queryDefaultBranchName } from "./common/github.ts";
+import renderWakatime from "./wakatime.tsx";
 
 const globalOptions = args
   .with(
-    CountFlag('verbose', {
-      alias: ['v'],
-      describe: 'Show verbose output. Use -vv for more verbose output.',
-    })
+    CountFlag("verbose", {
+      alias: ["v"],
+      describe: "Show verbose output. Use -vv for more verbose output.",
+    }),
   )
   .with(
-    BinaryFlag('write', {
-      alias: ['W'],
-      describe: 'Write output to file.',
-    })
+    BinaryFlag("write", {
+      alias: ["W"],
+      describe: "Write output to file.",
+    }),
   )
   .with(
-    BinaryFlag('commit', {
-      alias: ['C'],
-      describe: 'Commit output to GitHub repository.',
-    })
+    BinaryFlag("commit", {
+      alias: ["C"],
+      describe: "Commit output to GitHub repository.",
+    }),
   )
   .with(
-    PartialOption('user', {
+    PartialOption("user", {
       type: Text,
-      alias: ['U'],
-      describe: 'GitHub username.',
-      default: '',
-    })
+      alias: ["U"],
+      describe: "GitHub username.",
+      default: "",
+    }),
   )
   .with(
-    PartialOption('repo', {
+    PartialOption("repo", {
       type: Text,
-      alias: ['r'],
-      describe: 'GitHub repository.',
-      default: '',
-    })
+      alias: ["r"],
+      describe: "GitHub repository.",
+      default: "",
+    }),
   )
   .with(
-    PartialOption('branch', {
+    PartialOption("branch", {
       type: Text,
-      alias: ['b'],
-      describe: 'GitHub repository branch.',
-      default: '',
-      describeDefault: 'master or main branch',
-    })
+      alias: ["b"],
+      describe: "GitHub repository branch.",
+      default: "",
+      describeDefault: "master or main branch",
+    }),
   )
   .with(
-    PartialOption('token', {
+    PartialOption("token", {
       type: Text,
-      alias: ['T'],
-      describe: 'GitHub personal access token.',
-      default: '',
-    })
+      alias: ["T"],
+      describe: "GitHub personal access token.",
+      default: "",
+    }),
   );
 
 const wakatimeOptions = globalOptions
-  .describe('Generate a wakatime stats.')
+  .describe("Generate a wakatime stats.")
   .with(
-    EarlyExitFlag('help', {
-      alias: ['h'],
-      describe: 'Show help and exit.',
+    EarlyExitFlag("help", {
+      alias: ["h"],
+      describe: "Show help and exit.",
       exit() {
         logging.error(wakatimeOptions.help());
         Deno.exit(0);
       },
-    })
+    }),
   )
   .with(
-    Option('username', {
+    Option("username", {
       type: Text,
-      alias: ['u'],
-      describe: 'Your wakatime username.',
-    })
+      alias: ["u"],
+      describe: "Your wakatime username.",
+    }),
   )
   .with(
-    Option('output', {
+    Option("output", {
       type: Text,
-      alias: ['o'],
-      describe: 'The filename of the output svg file.',
-    })
+      alias: ["o"],
+      describe: "The filename of the output svg file.",
+    }),
   )
   .with(
-    PartialOption('width', {
+    PartialOption("width", {
       type: FiniteNumber,
-      alias: ['w'],
-      describe: 'The width of the image.',
+      alias: ["w"],
+      describe: "The width of the image.",
       default: 495,
-    })
+    }),
   )
   .with(
-    BinaryFlag('compact', {
-      alias: ['c'],
-      describe: 'Use compact layout.',
-    })
+    BinaryFlag("compact", {
+      alias: ["c"],
+      describe: "Use compact layout.",
+    }),
   )
   .with(
-    PartialOption('title', {
+    PartialOption("title", {
       type: Text,
-      alias: ['t'],
-      describe: 'The title of the image.',
+      alias: ["t"],
+      describe: "The title of the image.",
       default: undefined,
       describeDefault: "<username>'s Wakatime Stats",
-    })
+    }),
   )
   .with(
-    PartialOption('max-languages-count', {
+    PartialOption("max-languages-count", {
       type: FiniteNumber,
-      alias: ['m', 'max'],
-      describe: 'The maximum number of languages to show.',
+      alias: ["m", "max"],
+      describe: "The maximum number of languages to show.",
       default: 0,
-      describeDefault: 'Show all languages.',
-    })
+      describeDefault: "Show all languages.",
+    }),
   )
   .with(
-    DrainOption('hide-languages', {
+    DrainOption("hide-languages", {
       type: Text,
-      alias: ['H', 'hide'],
-      describe: 'Hide the specified languages.',
+      alias: ["H", "hide"],
+      describe: "Hide the specified languages.",
       while: (arg) => allLanguages.has(arg.raw),
-    })
+    }),
   );
 
 const parser = args
-  .describe('GitHub readme stats generator.')
+  .describe("GitHub readme stats generator.")
   .with(
-    EarlyExitFlag('help', {
-      alias: ['h'],
-      describe: 'Show help and exit.',
+    EarlyExitFlag("help", {
+      alias: ["h"],
+      describe: "Show help and exit.",
       exit() {
         logging.error(parser.help());
         Deno.exit(0);
       },
-    })
+    }),
   )
   .sub(
-    'help',
-    args.describe('Print this message or the help of the given subcommand.')
+    "help",
+    args.describe("Print this message or the help of the given subcommand."),
   )
-  .sub('wakatime', wakatimeOptions);
+  .sub("wakatime", wakatimeOptions);
 
 const parsed = parser.parse(Deno.args);
 
@@ -170,18 +170,18 @@ switch (parsed.tag) {
     logging.error(parser.help());
     Deno.exit(1);
     break;
-  case 'help':
+  case "help":
     logging.error(parser.help(...parsed.remaining().rawValues()));
     break;
-  case 'wakatime': {
+  case "wakatime": {
     const {
       username,
       output,
       width,
       compact,
       title,
-      'max-languages-count': maxLanguagesCount,
-      'hide-languages': hideLanguages,
+      "max-languages-count": maxLanguagesCount,
+      "hide-languages": hideLanguages,
 
       write,
       commit,
@@ -197,14 +197,14 @@ switch (parsed.tag) {
     const commiters = [];
     if (write) commiters.push(fileCommiter);
     if (commit) {
-      if (!user) logging.error('Missing GitHub username.'), Deno.exit(1);
-      if (!repo) logging.error('Missing GitHub repository.'), Deno.exit(1);
-      if (!token)
-        logging.error('Missing GitHub personal access token.'), Deno.exit(1);
+      if (!user) logging.error("Missing GitHub username."), Deno.exit(1);
+      if (!repo) logging.error("Missing GitHub repository."), Deno.exit(1);
+      if (!token) {
+        logging.error("Missing GitHub personal access token."), Deno.exit(1);
+      }
 
       const octokit = new Octokit({ auth: token });
-      const realBranch =
-        branch ||
+      const realBranch = branch ||
         (await queryDefaultBranchName(octokit, { owner: user, repo }));
 
       commiters.push(
@@ -212,7 +212,7 @@ switch (parsed.tag) {
           owner: user,
           repo,
           branch: realBranch,
-        })
+        }),
       );
     }
     if (!commiters.length) commiters.push(fileCommiter);

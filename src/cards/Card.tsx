@@ -3,11 +3,11 @@
  * @module cards/Card
  */
 
-import * as JSX from '../common/jsx-extra.ts';
+import * as JSX from "../common/jsx-extra.ts";
 
-import { LinearGradient } from '../themes/utils.tsx';
-import Title from './Title.tsx';
-import { useTheme } from '../themes/Theme.tsx';
+import { LinearGradient } from "../themes/utils.tsx";
+import Title from "./Title.tsx";
+import { useTheme } from "../themes/Theme.tsx";
 
 interface CardProps {
   width: number;
@@ -28,7 +28,7 @@ const Card: JSX.FC<CardProps> = ({
   const defs = [];
   if (theme.bgColor instanceof Object) {
     defs.push(
-      <LinearGradient id="bgcolor-gradient" gradient={theme.bgColor} />
+      <LinearGradient id="bgcolor-gradient" gradient={theme.bgColor} />,
     );
   }
 
@@ -49,36 +49,28 @@ const Card: JSX.FC<CardProps> = ({
       {defs ? <defs>{defs}</defs> : null}
 
       <rect
-        data-testid="card-bg"
         x="0.5"
         y="0.5"
         rx={theme.borderRadius}
         height="99%"
         stroke={theme.borderColor}
         width={width - 1}
-        fill={
-          theme.bgColor instanceof Object
-            ? 'url(#bgcolor-gradient)'
-            : theme.bgColor
-        }
+        fill={theme.bgColor instanceof Object
+          ? "url(#bgcolor-gradient)"
+          : theme.bgColor}
         stroke-opacity={theme.hideBorder ? 0 : 1}
       />
 
-      {!theme.hideTitle ? (
-        <Title title={title} titlePrefixIcon={titlePrefixIcon} />
-      ) : null}
+      {!theme.hideTitle
+        ? <Title title={title} titlePrefixIcon={titlePrefixIcon} />
+        : null}
 
       <svg
-        data-testid="main-card-body"
         x={0}
-        y={
-          theme.hideTitle
-            ? theme.paddingY
-            : theme.paddingY + theme.lineHeight
-        }
+        y={theme.hideTitle ? theme.paddingY : theme.paddingY + theme.lineHeight}
       >
         {children}
-      </svg>      
+      </svg>
     </svg>
   );
 };

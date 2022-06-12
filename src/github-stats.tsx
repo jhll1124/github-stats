@@ -1,20 +1,20 @@
-import { Commiter } from './commiters/types.ts';
+import type { Commiter } from './commiters/types.ts';
 import GitHubStatsCard from './cards/GitHubStatsCard.tsx';
-import { Octokit } from 'octokit';
+import type { Octokit } from 'octokit';
 import { ThemeProvider } from './themes/Theme.tsx';
-import { chain } from './optimizers/core.ts';
 import fetchGitHubUser from './fetchers/github-user-fetcher.ts';
-import formatSvg from './optimizers/format-svg.ts';
-import hydrationStyle from "./optimizers/hydration-style.ts";
 import logging from './common/logging.ts';
-import optimizeSvg from './optimizers/optimize-svg.ts';
 import { renderSSR } from 'nano-jsx';
+import writeSvg from './write-svg.ts';
 
 interface Parameters {
   user: string;
   octokit: Octokit;
   title?: string;
   width: number;
+  includeCollaboratedStargazers: boolean;
+  onlyLastYear: boolean;
+  hideStats: ('stars' | 'commits' | 'prs' | 'issues' | 'contributions')[];
   output: string;
   commiters: Commiter[];
 }
@@ -24,6 +24,9 @@ export default async function renderGitHubStats({
   octokit,
   title,
   width,
+  includeCollaboratedStargazers,
+  onlyLastYear,
+  hideStats,
   output,
   commiters,
 }: Parameters) {
@@ -36,21 +39,18 @@ export default async function renderGitHubStats({
   logging.verbose(1, 'generate svg');
   const result = renderSSR(
     <ThemeProvider>
-      <GitHubStatsCard stats={stats} title={title} width={width} />
+      <GitHubStatsCard
+        stats={stats}
+        title={title}
+        width={width}
+        includeCollaboratedStargazers={includeCollaboratedStargazers}
+        onlyLastYear={onlyLastYear}
+        hideStats={hideStats}
+      />
     </ThemeProvider>
   );
   logging.verbose(1, 'svg generated');
   logging.verbose(2, result);
 
-  logging.verbose(1, 'optimize svg');
-  const optimize = chain([hydrationStyle, optimizeSvg, formatSvg]);
-  const optimized = optimize(result);
-  logging.verbose(1, 'svg optimized');
-  logging.verbose(2, optimized);
-
-  logging.verbose(1, 'write svg');
-  await Promise.all(
-    commiters.map((commiter) => commiter({ path: output, content: optimized }))
-  );
-  logging.verbose(1, 'svg written');
+  await writeSvg({ path: output, content: result, commiters });
 }
