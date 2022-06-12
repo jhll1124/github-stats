@@ -6,7 +6,7 @@ import actionCommiter from "./commiters/action.ts";
 import getRepositoryCommiter from "./commiters/repository.ts";
 import logging from "./common/logging.ts";
 import { queryDefaultBranchName } from "./common/github.ts";
-import renderWakatime from "./wakatime.tsx";
+import renderWakatime from "./renderers/wakatime.tsx";
 
 if (
   github.context.eventName === "push" &&
@@ -49,7 +49,7 @@ async function getCommiters(): Promise<Commiter[]> {
         const branch = core.getInput("branch") ||
           (await queryDefaultBranchName(octokit, { owner, repo }));
 
-        const commiter = getRepositoryCommiter(octokit, {
+        const commiter = await getRepositoryCommiter(octokit, {
           owner,
           repo,
           branch,

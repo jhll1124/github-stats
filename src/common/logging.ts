@@ -29,6 +29,12 @@ const logging = {
     console.error(...args);
   },
 
+  // deno-lint-ignore no-explicit-any
+  exit(...args: any[]): never {
+    console.error(...args);
+    Deno.exit(1);
+  },
+
   setVerbose(verbose: number) {
     this._verbose = verbose;
   },

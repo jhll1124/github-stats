@@ -1,4 +1,4 @@
-import { Octokit } from "octokit";
+import { Octokit } from "../common/octokit.ts";
 
 export interface GitHubUserData {
   name: string;

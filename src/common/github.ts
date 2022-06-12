@@ -1,4 +1,4 @@
-import type { Octokit } from "octokit";
+import type { Octokit } from "./octokit.ts";
 import logging from "../common/logging.ts";
 
 interface QueryDefaultBranchName {

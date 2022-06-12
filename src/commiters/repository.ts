@@ -1,19 +1,23 @@
 import { Commiter } from "./types.ts";
-import { Octokit } from "octokit";
+import { Octokit } from "../common/octokit.ts";
 import { encode } from "base64";
 import { gitHashObject } from "../common/hash.ts";
 import logging from "../common/logging.ts";
+import { queryDefaultBranchName } from "../common/github.ts";
 
 interface getRepositoryCommiterOptions {
   owner: string;
   repo: string;
-  branch: string;
+  branch?: string;
 }
 
-export default function getRepositoryCommiter(
+export default async function getRepositoryCommiter(
   octokit: Octokit,
   { owner, repo, branch }: getRepositoryCommiterOptions,
-): Commiter {
+): Promise<Commiter> {
+  const realBranch = branch ||
+    await queryDefaultBranchName(octokit, { owner, repo });
+
   return async function commit({ path, content }) {
     logging.verbose(1, "start commit to github");
     const {
@@ -31,7 +35,7 @@ export default function getRepositoryCommiter(
       {
         owner,
         repo,
-        path: `${branch}:${path}`,
+        path: `${realBranch}:${path}`,
       },
     );
     logging.verbose(1, "origin sha:", sha);
@@ -49,7 +53,7 @@ export default function getRepositoryCommiter(
       message: `Update ${path} [Skip GitHub Action]`,
       ...(sha ? { sha } : {}),
       content: encode(content),
-      branch,
+      branch: realBranch,
     });
     logging.verbose(2, "response:", data);
     logging.verbose(1, "finish sending request");
