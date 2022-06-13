@@ -1,5 +1,7 @@
 # github-stats
 
+[English](/README.md) | [中文](/README-CN.md)
+
 Generate stats for your github readmes, using Github Actions.
 
 ## Examples
