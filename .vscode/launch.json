@@ -5,11 +5,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "request": "launch",
-      "name": "Launch Program",
-      "type": "pwa-node",
+      "name": "Deno",
+      "type": "node",
+      "request": "attach",
       "cwd": "${workspaceFolder}",
-      "attachSimplePort": 9229
+      "port": 9229
     }
   ]
 }

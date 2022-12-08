@@ -1,15 +1,15 @@
 {
   "imports": {
-    "nano-jsx": "https://deno.land/x/nano_jsx@v0.0.32/mod.ts",
-    "nano-jsx/jsx-runtime": "https://deno.land/x/nano_jsx@v0.0.32/jsx-runtime/index.ts",
-    "svgo": "https://esm.sh/svgo@2.8.0",
-    "csso": "https://unpkg.com/csso",
+    "nano-jsx": "https://deno.land/x/nano_jsx@v0.0.34/mod.ts",
+    "nano-jsx/jsx-runtime": "https://deno.land/x/nano_jsx@v0.0.34/jsx-runtime/index.ts",
+    "svgo": "https://unpkg.com/svgo@3.0.2/dist/svgo.browser.js",
+    "csso": "https://unpkg.com/csso@5.0.5/dist/csso.esm.js",
     "xml-formatter": "https://esm.sh/xml-formatter@2.6.1",
     "args": "https://deno.land/x/args@2.1.1/index.ts",
-    "@actions/core": "https://esm.sh/@actions/core@1.8.2",
-    "@actions/github": "https://esm.sh/@actions/github@5.0.3",
-    "octokit": "https://esm.sh/octokit@1.7.2",
-    "base64": "https://deno.land/std@0.143.0/encoding/base64.ts",
-    "crypto": "https://deno.land/std@0.143.0/crypto/mod.ts"
+    "@actions/core": "https://esm.sh/@actions/core@1.10.0",
+    "@actions/github": "https://esm.sh/@actions/github@5.1.1",
+    "octokit": "https://esm.sh/octokit@2.0.10",
+    "base64": "https://deno.land/std@0.167.0/encoding/base64.ts",
+    "crypto": "https://deno.land/std@0.167.0/crypto/mod.ts"
   }
 }
