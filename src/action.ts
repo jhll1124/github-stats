@@ -33,6 +33,7 @@ function getOutputConfig() {
 
   const outputAction = core.getInput("output-action");
   const ghToken = core.getInput("token");
+  const committerToken = core.getInput("committer-token");
   const owner = core.getInput("owner") || github.context.repo.owner;
   const repo = core.getInput("repo") || github.context.repo.repo;
   const repoCommitTo = `${owner}/${repo}`;
@@ -49,6 +50,7 @@ function getOutputConfig() {
     shouldWrite: false,
     shouldCommit: outputAction === "commit",
     ghToken,
+    committerToken,
     repoCommitTo,
     branchCommitTo,
   };
@@ -63,8 +65,9 @@ function getGitHubConfig() {
   const githubOutputFileName = core.getInput("github-output-filename");
   const githubImageWidth = parseInt(core.getInput("github-image-width"));
   const githubCardTitle = core.getInput("github-card-title") || undefined;
-  const githubIncludeCollaboratedStargazers = core
-    .getBooleanInput("github-include-collaborated-stargazers");
+  const githubIncludeCollaboratedStargazers = core.getBooleanInput(
+    "github-include-collaborated-stargazers",
+  );
   const githubOnlyLastYear = core.getBooleanInput("github-only-last-year");
   const githubHideStatItems = core
     .getInput("github-hide-stat-items")
@@ -133,6 +136,6 @@ await Promise.resolve(env)
   .then(setUpVerbose)
   .then(setUpCommitersForActions)
   .then(ensureOctokit)
-  .then((env) => "githubUserName" in env ? renderGitHubStats(env) : env)
-  .then((env) => "wakatimeUserName" in env ? renderWakatime(env) : env)
+  .then((env) => ("githubUserName" in env ? renderGitHubStats(env) : env))
+  .then((env) => ("wakatimeUserName" in env ? renderWakatime(env) : env))
   .then(writeSvg);

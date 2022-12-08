@@ -9,5 +9,6 @@ ENTRYPOINT ["deno", "run" , \
 "--import-map=/github-stats/import_map.json", \
 "--allow-env", \
 "--allow-net", \
-"--allow-read=/github/workflow", \
+"--allow-read=/github/workflow,/github/file_commands", \
+"--allow-write=/github/file_commands", \
 "/github-stats/src/action.ts"]

@@ -57,27 +57,28 @@ jobs:
 
 ## 配置
 
-| 选项                                     | 描述                                                         | 是否必需 | 默认                          |
-| ---------------------------------------- | ------------------------------------------------------------ | -------- | ----------------------------- |
-| `token`                                  | GitHub个人访问令牌。                                         | 是       |                               |
-| `github-username`                        | 你的github用户名。当此选项存在时，github用户的统计信息将被呈现。 | 否       |                               |
-| `github-output-filename`                 | 输出svg文件的文件名。                                        | 否       | `github-stats.svg`            |
-| `github-image-width`                     | 图像的宽度。                                                 | 否       | 495                           |
-| `github-card-title`                      | github统计卡的标题。                                         | 否       | `<username>'s GitHub Stats`   |
-| `github-include-collaborated-stargazers` | 包括来自你是合作者的仓库的星星。                             | 否       | true                          |
-| `github-only-last-year`                  | 只显示去年的统计信息。                                       | 否       | false                         |
+| 选项                                     | 描述                                                                                                        | 是否必需 | 默认                          |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- | -------- | ----------------------------- |
+| `token`                                  | GitHub 个人访问令牌。                                                                                       | 是       |                               |
+| `committer-token`                        | 用于提交更改的 GitHub 令牌。如果未设置，则将使用 Github Actions 自动生成的令牌。                            | 否       |                               | `${{ github.token }}` |
+| `github-username`                        | 你的 github 用户名。当此选项存在时，github 用户的统计信息将被呈现。                                         | 否       |                               |
+| `github-output-filename`                 | 输出 svg 文件的文件名。                                                                                     | 否       | `github-stats.svg`            |
+| `github-image-width`                     | 图像的宽度。                                                                                                | 否       | 495                           |
+| `github-card-title`                      | github 统计卡的标题。                                                                                       | 否       | `<username>'s GitHub Stats`   |
+| `github-include-collaborated-stargazers` | 包括来自你是合作者的仓库的星星。                                                                            | 否       | true                          |
+| `github-only-last-year`                  | 只显示去年的统计信息。                                                                                      | 否       | false                         |
 | `github-hide-stat-items`                 | 隐藏指定的统计项。接受的值是 "stars"、"commits"、"prs"、"issues"和 "contributions"。用逗号(,)或换行符分割。 | 否       |                               |
-| `wakatime-username`                      | 你的wakatime用户名。当此选项存在时，将呈现wakatime的统计信息。 | 否       |                               |
-| `wakatime-output-filename`               | 输出的svg文件的文件名。                                      | 否       | `wakatime-stats.svg`          |
-| `wakatime-image-width`                   | 图像的宽度。                                                 | 否       | 495                           |
-| `wakatime-compact-layout`                | 使用紧凑布局。                                               | 否       | false                         |
-| `wakatime-card-title`                    | wakatime统计卡的标题。                                       | 否       | `<username>'s Wakatime Stats` |
-| `wakatime-max-languages-count`           | 要显示的最大语言数。当小于1时，将显示所有语言。              | 否       | 0                             |
-| `wakatime-hide-languages`                | 隐藏指定的语言。用逗号(,)或换行符分割。                      | 否       |                               |
-| `output-action`                          | 输出动作，可选值为'commit'（生成的图片将被推送到版本库）或'none'（不做任何事情）。 | 否       | `commit`                      |
-| `repo`                                   | GitHub 仓库，用于提交渲染的图片，例如：`Wybxc/github-stats`。默认是使用该动作的仓库。 | 否       |                               |
-| `branch`                                 | 用于提交渲染图片的分支，例如主分支。默认是主分支或主分支。   | 否       |                               |
-| `verbose`                                | 打印粗略的输出。0表示正常输出，1表示粗略输出，2表示更粗略的输出。 | 否       | 0                             |
+| `wakatime-username`                      | 你的 wakatime 用户名。当此选项存在时，将呈现wakatime的统计信息。                                            | 否       |                               |
+| `wakatime-output-filename`               | 输出的 svg 文件的文件名。                                                                                   | 否       | `wakatime-stats.svg`          |
+| `wakatime-image-width`                   | 图像的宽度。                                                                                                | 否       | 495                           |
+| `wakatime-compact-layout`                | 使用紧凑布局。                                                                                              | 否       | false                         |
+| `wakatime-card-title`                    | wakatime 统计卡的标题。                                                                                     | 否       | `<username>'s Wakatime Stats` |
+| `wakatime-max-languages-count`           | 要显示的最大语言数。当小于1时，将显示所有语言。                                                             | 否       | 0                             |
+| `wakatime-hide-languages`                | 隐藏指定的语言。用逗号(,)或换行符分割。                                                                     | 否       |                               |
+| `output-action`                          | 输出动作，可选值为'commit'（生成的图片将被推送到版本库）或'none'（不做任何事情）。                          | 否       | `commit`                      |
+| `repo`                                   | GitHub 仓库，用于提交渲染的图片，例如：`Wybxc/github-stats`。默认是使用该动作的仓库。                       | 否       |                               |
+| `branch`                                 | 用于提交渲染图片的分支，例如主分支。默认是主分支或主分支。                                                  | 否       |                               |
+| `verbose`                                | 打印粗略的输出。0表示正常输出，1表示粗略输出，2表示更粗略的输出。                                           | 否       | 0                             |
 
 ## CLI用法
 

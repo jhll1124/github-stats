@@ -25,7 +25,7 @@ async function setUpRepositoryCommitter<
   T extends {
     shouldCommit: boolean;
     commiters?: Commiter[];
-    octokit?: Octokit;
+    actionOctokit?: Octokit;
     repoCommitTo?: string;
     branchCommitTo?: string;
     ghToken?: string;
@@ -39,7 +39,7 @@ async function setUpRepositoryCommitter<
       .then(ensureOctokit)
       .then(
         async (
-          { commiters = [], octokit, repoCommitTo, branchCommitTo, ...env },
+          { commiters = [], actionOctokit, repoCommitTo, branchCommitTo, ...env },
         ) => {
           if (!repoCommitTo) {
             logging.exit("Missing GitHub repository."), Deno.exit(1);
@@ -47,7 +47,7 @@ async function setUpRepositoryCommitter<
 
           const [user, repository] = repoCommitTo.split("/");
           commiters.push(
-            await getRepositoryCommiter(octokit, {
+            await getRepositoryCommiter(actionOctokit, {
               owner: user,
               repo: repository,
               branch: branchCommitTo,
@@ -56,7 +56,7 @@ async function setUpRepositoryCommitter<
 
           return {
             commiters,
-            octokit,
+            actionOctokit,
             ...env,
           };
         },

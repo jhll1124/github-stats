@@ -27,6 +27,6 @@ export default function optimizeSvg(svg: string) {
       "removeScriptElement",
     ],
   });
-  if (result.error !== undefined) throw Error(result.error);
+  // if (result.error !== undefined) throw Error(result.error);
   return result.data;
 }

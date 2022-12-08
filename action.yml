@@ -17,6 +17,10 @@ inputs:
   token:
     description: GitHub personal access token.
     required: true
+  committer-token:
+    description: GitHub Token used to commit metrics.
+    required: false
+    default: ${{ github.token }}
 
   github-username:
     description: Your github username.

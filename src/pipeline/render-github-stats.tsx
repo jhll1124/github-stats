@@ -9,7 +9,7 @@ import { renderSSR } from "nano-jsx";
 export default async function renderGitHubStats<
   T extends {
     githubUserName: string;
-    octokit: Octokit;
+    userOctokit: Octokit;
     githubCardTitle?: string;
     githubImageWidth: number;
     githubIncludeCollaboratedStargazers: boolean;
@@ -20,7 +20,7 @@ export default async function renderGitHubStats<
   },
 >({
   githubUserName: user,
-  octokit,
+  userOctokit,
   githubCardTitle: title,
   githubImageWidth: width,
   githubIncludeCollaboratedStargazers: includeCollaboratedStargazers,
@@ -32,7 +32,7 @@ export default async function renderGitHubStats<
 }: T) {
   logging.verbose(1, "start render github stats");
   logging.verbose(1, "fetch github stats");
-  const stats = await fetchGitHubUser({ user, octokit });
+  const stats = await fetchGitHubUser({ user, userOctokit });
   logging.verbose(1, "stats fetched");
   logging.verbose(2, stats);
 

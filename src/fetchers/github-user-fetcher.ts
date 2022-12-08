@@ -22,12 +22,12 @@ export interface GitHubUserData {
 }
 
 interface GitHubUserFetcherOptions {
-  octokit: Octokit;
+  userOctokit: Octokit;
   user: string;
 }
 
 export default async function fetchGitHubUser(
-  { octokit, user }: GitHubUserFetcherOptions,
+  { userOctokit, user }: GitHubUserFetcherOptions,
 ): Promise<GitHubUserData> {
   const {
     user: {
@@ -43,7 +43,7 @@ export default async function fetchGitHubUser(
       owned: { totalCount: ownedRepositories = 0 } = {},
       collaborated: { totalCount: collaboratedRepositories = 0 } = {},
     } = {},
-  } = await octokit.graphql(
+  } = await userOctokit.graphql(
     `#graphql
     query ($user: String!) {
       user(login: $user) {
@@ -91,7 +91,7 @@ export default async function fetchGitHubUser(
       collaborated: { nodes: collaboratedRepositoriesNodes = [] } = {},
       ...yearsContributions
     } = {},
-  } = await octokit.graphql(
+  } = await userOctokit.graphql(
     `#graphql
     query ($user: String!, $ownedRepositories: Int!, $collaboratedRepositories: Int!, ${yearsInput}) {
       user(login: $user) {
