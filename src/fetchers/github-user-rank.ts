@@ -1,5 +1,15 @@
-function expsf(x: number, mean: number) {
-  return 2 ** (-x / mean);
+function normalcdf(mean: number, sigma: number, to: number) {
+  const z = (to - mean) / Math.sqrt(2 * sigma * sigma);
+  const t = 1 / (1 + 0.3275911 * Math.abs(z));
+  const a1 = 0.254829592;
+  const a2 = -0.284496736;
+  const a3 = 1.421413741;
+  const a4 = -1.453152027;
+  const a5 = 1.061405429;
+  const erf =
+    1 - ((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t * Math.exp(-z * z);
+  const sign = z < 0 ? -1 : 1;
+  return (1 / 2) * (1 + sign * erf);
 }
 
 export interface UserStats {
@@ -12,51 +22,40 @@ export interface UserStats {
   stargazers: number;
 }
 
-const mean = {
-  repos: 1, // ignored
-  contributions: 1, // ignored
-  commits: 300,
-  followers: 20,
-  prs: 10,
-  issues: 20,
-  stargazers: 100,
+const weight: Record<string, number> = {
+  repos: 1,
+  contributions: 1.65,
+  commits: 1.65,
+  followers: 0.45,
+  prs: 0.5,
+  issues: 1,
+  stargazers: 0.75,
 };
 
-const weight = {
-  repos: 0, // ignored
-  contributions: 0, // ignored
-  commits: 0.4,
-  followers: 0.6,
-  prs: 0.8,
-  issues: 0.4,
-  stargazers: 1.0,
-};
+const totalWeight = Object.values(weight).reduce((a, b) => a + b, 0);
 
 const ranks: [string, number][] = [
-  ["S+", 0.025],
-  ["S", 0.1],
-  ["A++", 0.2],
-  ["A+", 0.4],
-  ["A", 0.6],
-  ["B+", 0.8],
-  ["B", 0.9],
-  ["C+", 0.96],
-  ["C", 1.0],
+  ['S+', 1],
+  ['S', 25],
+  ['A++', 45],
+  ['A+', 60],
+  ['B+', 100],
 ];
 
-export function calculateRank(userStats: UserStats) {
-  let rankTotal = 0;
-  let weightTotal = 0;
-  for (const key in userStats) {
-    const item: keyof UserStats = key as keyof UserStats;
-    rankTotal += weight[item] * expsf(userStats[item], mean[item]);
-    weightTotal += weight[item];
-  }
-  const rank = rankTotal / weightTotal;
+const totalRanks = ranks.reduce((a, b) => a + b[1], 0);
 
-  for (const [rankName, rankValue] of ranks) {
-    if (rank <= rankValue) return { level: rankName, score: rank * 100 };
-  }
+export function calculateRank(stats: UserStats) {
+  const rawScore =
+    Object.entries(stats).reduce((acc, [key, value]) => {
+      return acc + value * weight[key] ?? 0;
+    }, 0) / 100;
 
-  return { level: "C", score: 100 };
+  const normalizedScore = normalcdf(rawScore, totalRanks, totalWeight) * 100;
+
+  const [level, score] = ranks.find(([, max]) => normalizedScore <= max) ?? [
+    'C',
+    100,
+  ];
+
+  return { level, score };
 }
