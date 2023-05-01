@@ -1,4 +1,4 @@
-import { EarlyExitFlag, MAIN_COMMAND, args } from "args";
+import { args, EarlyExitFlag, MAIN_COMMAND } from "args";
 import { dealGitHubCommand, githubOptions } from "./github.ts";
 import { dealWakatimeCommand, wakatimeOptions } from "./wakatime.ts";
 

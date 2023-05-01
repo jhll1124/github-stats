@@ -12,13 +12,16 @@ Generate stats for your github readmes, using Github Actions.
 
 ## Usage
 
-Setup a GitHub Action which runs periodically and pushes generated images to a repository.
+Setup a GitHub Action which runs periodically and pushes generated images to a
+repository.
 
 ### Step 1: Create a GitHub personal token
 
-From the `Developer settings` of your account settings, select `Personal access tokens` to create a new token.
+From the `Developer settings` of your account settings, select
+`Personal access tokens` to create a new token.
 
-Afterwards, add the token to your repository secrets. Name it `GHTOKEN` or whatever you want.
+Afterwards, add the token to your repository secrets. Name it `GHTOKEN` or
+whatever you want.
 
 ### Step 2: Setup GitHub Action workflow
 
@@ -55,7 +58,8 @@ jobs:
           wakatime-max-languages-count: 8
 ```
 
-Wait for the workflow to finish and check the generated images in the repository.
+Wait for the workflow to finish and check the generated images in the
+repository.
 
 ## Configuration
 
@@ -96,9 +100,12 @@ to see the available commands.
 
 ## Handle Output Manually
 
-When the `output-action` is set to `none`, the rendered images will not be pushed to the repository. You should handle them manually.
+When the `output-action` is set to `none`, the rendered images will not be
+pushed to the repository. You should handle them manually.
 
-The action will store the rendered images in GitHub Actions' `output`, which can be accessed by the `steps.<id>.outputs` variable. The output filename is used as the key.
+The action will store the rendered images in GitHub Actions' `output`, which can
+be accessed by the `steps.<id>.outputs` variable. The output filename is used as
+the key.
 
 Here is an example:
 

@@ -7,7 +7,7 @@ import {
   PartialOption,
   Text,
 } from "args";
-import { Parsed, globalOptions } from "./global.ts";
+import { globalOptions, Parsed } from "./global.ts";
 
 import ensureOctokit from "../pipeline/ensure-octokit.ts";
 import logging from "../common/logging.ts";

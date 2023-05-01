@@ -30,40 +30,33 @@ async function setUpRepositoryCommitter<
     branchCommitTo?: string;
     ghToken?: string;
   },
->({
-  shouldCommit,
-  ...env
-}: T) {
+>({ shouldCommit, commiters = [], repoCommitTo, branchCommitTo, ...env }: T) {
   if (shouldCommit) {
     return await Promise.resolve(env)
       .then(ensureOctokit)
-      .then(
-        async (
-          { commiters = [], actionOctokit, repoCommitTo, branchCommitTo, ...env },
-        ) => {
-          if (!repoCommitTo) {
-            logging.exit("Missing GitHub repository."), Deno.exit(1);
-          }
+      .then(async ({ actionOctokit, ...env }) => {
+        if (!repoCommitTo) {
+          logging.exit("Missing GitHub repository."), Deno.exit(1);
+        }
 
-          const [user, repository] = repoCommitTo.split("/");
-          commiters.push(
-            await getRepositoryCommiter(actionOctokit, {
-              owner: user,
-              repo: repository,
-              branch: branchCommitTo,
-            }),
-          );
+        const [user, repository] = repoCommitTo.split("/");
+        commiters.push(
+          await getRepositoryCommiter(actionOctokit, {
+            owner: user,
+            repo: repository,
+            branch: branchCommitTo,
+          }),
+        );
 
-          return {
-            commiters,
-            actionOctokit,
-            ...env,
-          };
-        },
-      );
+        return {
+          ...env,
+          commiters,
+          actionOctokit,
+        };
+      });
   }
 
-  return env;
+  return { ...env, commiters, repoCommitTo, branchCommitTo };
 }
 
 async function setUpCommiters<

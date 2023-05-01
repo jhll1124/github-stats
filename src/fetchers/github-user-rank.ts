@@ -6,8 +6,8 @@ function normalcdf(mean: number, sigma: number, to: number) {
   const a3 = 1.421413741;
   const a4 = -1.453152027;
   const a5 = 1.061405429;
-  const erf =
-    1 - ((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t * Math.exp(-z * z);
+  const erf = 1 -
+    ((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t * Math.exp(-z * z);
   const sign = z < 0 ? -1 : 1;
   return (1 / 2) * (1 + sign * erf);
 }
@@ -35,25 +35,24 @@ const weight: Record<string, number> = {
 const totalWeight = Object.values(weight).reduce((a, b) => a + b, 0);
 
 const ranks: [string, number][] = [
-  ['S+', 1],
-  ['S', 25],
-  ['A++', 45],
-  ['A+', 60],
-  ['B+', 100],
+  ["S+", 1],
+  ["S", 25],
+  ["A++", 45],
+  ["A+", 60],
+  ["B+", 100],
 ];
 
 const totalRanks = ranks.reduce((a, b) => a + b[1], 0);
 
 export function calculateRank(stats: UserStats) {
-  const rawScore =
-    Object.entries(stats).reduce((acc, [key, value]) => {
-      return acc + value * weight[key] ?? 0;
-    }, 0) / 100;
+  const rawScore = Object.entries(stats).reduce((acc, [key, value]) => {
+    return acc + value * weight[key] ?? 0;
+  }, 0) / 100;
 
   const normalizedScore = normalcdf(rawScore, totalRanks, totalWeight) * 100;
 
   const [level, score] = ranks.find(([, max]) => normalizedScore <= max) ?? [
-    'C',
+    "C",
     100,
   ];
 

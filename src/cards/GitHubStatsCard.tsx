@@ -1,14 +1,14 @@
-import * as JSX from '../common/jsx-extra.ts';
+import * as JSX from "../common/jsx-extra.ts";
 
-import { Commit, Contribution, Issue, PullRequest, Star } from './icons.tsx';
+import { Commit, Contribution, Issue, PullRequest, Star } from "./icons.tsx";
 
-import Card from './Card.tsx';
-import { FlexLayout } from './Layout.tsx';
-import { GitHubUserData } from '../fetchers/github-user-fetcher.ts';
-import Style from '../common/Style.tsx';
-import { calculateRank } from '../fetchers/github-user-rank.ts';
-import { font } from '../themes/utils.tsx';
-import { useTheme } from '../themes/Theme.tsx';
+import Card from "./Card.tsx";
+import { FlexLayout } from "./Layout.tsx";
+import { GitHubUserData } from "../fetchers/github-user-fetcher.ts";
+import Style from "../common/Style.tsx";
+import { calculateRank } from "../fetchers/github-user-rank.ts";
+import { font } from "../themes/utils.tsx";
+import { useTheme } from "../themes/Theme.tsx";
 
 interface GitHubStatsCardProps {
   stats: GitHubUserData;
@@ -31,41 +31,41 @@ const GitHubStatsCard: JSX.FC<GitHubStatsCardProps> = ({
   const theme = useTheme();
 
   const statItems: [string, number, JSX.Element][] = [];
-  if (!hideStats.includes('stars')) {
+  if (!hideStats.includes("stars")) {
     statItems.push([
-      'Total Stars Earned:',
+      "Total Stars Earned:",
       includeCollaboratedStargazers
         ? stats.ownedStargazers + stats.collaboratedStargazers
         : stats.ownedStargazers,
       <Star />,
     ]);
   }
-  if (!hideStats.includes('commits')) {
+  if (!hideStats.includes("commits")) {
     statItems.push([
       onlyLastYear
         ? `Total Commits (${new Date().getFullYear() - 1}):`
-        : 'Total Commits:',
+        : "Total Commits:",
       onlyLastYear ? stats.total.commits : stats.lastYear.commits,
       <Commit />,
     ]);
   }
-  if (!hideStats.includes('prs')) {
+  if (!hideStats.includes("prs")) {
     statItems.push([
-      'Total PRs:',
+      "Total PRs:",
       onlyLastYear ? stats.total.pullRequests : stats.lastYear.pullRequests,
       <PullRequest />,
     ]);
   }
-  if (!hideStats.includes('issues')) {
+  if (!hideStats.includes("issues")) {
     statItems.push([
-      'Total Issues:',
+      "Total Issues:",
       onlyLastYear ? stats.total.issues : stats.lastYear.issues,
       <Issue />,
     ]);
   }
-  if (!hideStats.includes('contributions')) {
+  if (!hideStats.includes("contributions")) {
     statItems.push([
-      'Contributed to:',
+      "Contributed to:",
       onlyLastYear
         ? stats.total.repositoriesContributedTo
         : stats.lastYear.repositoriesContributedTo,
@@ -73,12 +73,11 @@ const GitHubStatsCard: JSX.FC<GitHubStatsCardProps> = ({
     ]);
   }
 
-  const height =
-    (theme.hideTitle ? 0 : theme.lineHeight) +
+  const height = (theme.hideTitle ? 0 : theme.lineHeight) +
     theme.paddingY * 2 +
     Math.max(
       (statItems.length - 1) * theme.lineHeight,
-      theme.hideRank ? 0 : theme.rankRadius * 2
+      theme.hideRank ? 0 : theme.rankRadius * 2,
     );
 
   return (
@@ -137,9 +136,10 @@ const Stagger: JSX.FC<{
         `}
       </Style>
 
-      {theme.enableAnimations ? (
-        <Style>
-          {`
+      {theme.enableAnimations
+        ? (
+          <Style>
+            {`
             .stagger {
               opacity: 0;
               animation: fadeInAnimation 0.3s ease-in-out forwards;
@@ -149,28 +149,31 @@ const Stagger: JSX.FC<{
               100% { opacity: 1; }
             }
             `}
-        </Style>
-      ) : (
-        <Style>
-          {`
+          </Style>
+        )
+        : (
+          <Style>
+            {`
             .stagger {
               opacity: 1;
             }
           `}
-        </Style>
-      )}
+          </Style>
+        )}
 
-      {theme.showIcon ? (
-        <svg
-          class="icon"
-          viewBox="0 0 16 16"
-          version="1.1"
-          width="16"
-          height="16"
-        >
-          {icon}
-        </svg>
-      ) : null}
+      {theme.showIcon
+        ? (
+          <svg
+            class="icon"
+            viewBox="0 0 16 16"
+            version="1.1"
+            width="16"
+            height="16"
+          >
+            {icon}
+          </svg>
+        )
+        : null}
       <text
         class="stat bold"
         x={theme.showIcon ? 25 : 0}
@@ -209,10 +212,12 @@ const RankCircle: JSX.FC<{
     <g
       transform={`translate(=${
         width + theme.paddingX - theme.rankRadius * 2
-      }, ${Math.max(
-        height / 2 - theme.paddingY - theme.lineHeight,
-        theme.rankRadius
-      )})`}
+      }, ${
+        Math.max(
+          height / 2 - theme.paddingY - theme.lineHeight,
+          theme.rankRadius,
+        )
+      })`}
     >
       <Style>
         {`
@@ -229,10 +234,12 @@ const RankCircle: JSX.FC<{
             stroke-linecap: round;
             transform-origin: -10px 8px;
             transform: rotate(-90deg);
-            stroke-dashoffset: ${calculateCircleProgress(
-              100 - rank.score,
-              theme.rankRadius
-            )};
+            stroke-dashoffset: ${
+          calculateCircleProgress(
+            100 - rank.score,
+            theme.rankRadius,
+          )
+        };
 
           }
           .rank-text {
@@ -242,9 +249,10 @@ const RankCircle: JSX.FC<{
           }
         `}
       </Style>
-      {theme.enableAnimations ? (
-        <Style>
-          {`
+      {theme.enableAnimations
+        ? (
+          <Style>
+            {`
           .rank-circle {
             animation: rankAnimation 1s forwards ease-in-out;
           }
@@ -255,10 +263,12 @@ const RankCircle: JSX.FC<{
 
           @keyframes rankAnimation {
             0% {
-              stroke-dashoffset: ${calculateCircleProgress(
+              stroke-dashoffset: ${
+              calculateCircleProgress(
                 0,
-                theme.rankRadius
-              )};
+                theme.rankRadius,
+              )
+            };
             }
           }
 
@@ -271,8 +281,9 @@ const RankCircle: JSX.FC<{
             }
           }
       `}
-        </Style>
-      ) : null}
+          </Style>
+        )
+        : null}
       <circle class="rank-circle-rim" cx="-10" cy="8" r={theme.rankRadius} />
       <circle class="rank-circle" cx="-10" cy="8" r={theme.rankRadius} />
       <g class="rank-text">

@@ -7,7 +7,7 @@ import {
   PartialOption,
   Text,
 } from "args";
-import { Parsed, globalOptions } from "./global.ts";
+import { globalOptions, Parsed } from "./global.ts";
 
 import { allLanguages } from "../common/languageColors.ts";
 import logging from "../common/logging.ts";

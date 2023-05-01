@@ -1,6 +1,6 @@
-import getOctokit, { Octokit } from '../common/octokit.ts';
+import getOctokit, { Octokit } from "../common/octokit.ts";
 
-import logging from '../common/logging.ts';
+import logging from "../common/logging.ts";
 
 export default function ensureOctokit<
   T extends {
@@ -8,13 +8,13 @@ export default function ensureOctokit<
     committerToken?: string;
     userOctokit?: Octokit;
     actionOctokit?: Octokit;
-  }
+  },
 >({ ghToken, committerToken, userOctokit, actionOctokit, ...env }: T) {
   if (!ghToken) {
-    logging.exit('Missing GitHub personal access token.'), Deno.exit(1);
+    logging.exit("Missing GitHub personal access token."), Deno.exit(1);
   }
   if (!committerToken) {
-    logging.exit('Missing GitHub token.'), Deno.exit(1);
+    logging.exit("Missing GitHub token."), Deno.exit(1);
   }
 
   if (!userOctokit) userOctokit = getOctokit(ghToken);

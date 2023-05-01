@@ -14,7 +14,8 @@
 
 ### 第1步：创建一个 GitHub 个人令牌
 
-在账户设置的 `Developer settings`中，选择 `Personal access tokens`来创建一个新的令牌。
+在账户设置的 `Developer settings`中，选择
+`Personal access tokens`来创建一个新的令牌。
 
 之后，将该令牌添加到你的仓库 secrets 中。命名为`GHTOKEN`或别的名字。
 
@@ -60,7 +61,7 @@ jobs:
 | 选项                                     | 描述                                                                                                        | 是否必需 | 默认                          |
 | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- | -------- | ----------------------------- |
 | `token`                                  | GitHub 个人访问令牌。                                                                                       | 是       |                               |
-| `committer-token`                        | 用于提交更改的 GitHub 令牌。如果未设置，则将使用 Github Actions 自动生成的令牌。                            | 否       |                               | `${{ github.token }}` |
+| `committer-token`                        | 用于提交更改的 GitHub 令牌。如果未设置，则将使用 Github Actions 自动生成的令牌。                            | 否       |                               |
 | `github-username`                        | 你的 github 用户名。当此选项存在时，github 用户的统计信息将被呈现。                                         | 否       |                               |
 | `github-output-filename`                 | 输出 svg 文件的文件名。                                                                                     | 否       | `github-stats.svg`            |
 | `github-image-width`                     | 图像的宽度。                                                                                                | 否       | 495                           |
@@ -89,13 +90,16 @@ jobs:
 ```bash
 deno task run help
 ```
+
 来查看可用的命令。
 
 ## 手动处理输出
 
-当 "output-action "设置为 "none "时，渲染的图像不会被推送到版本库中。你应该手动处理它们。
+当 "output-action "设置为 "none
+"时，渲染的图像不会被推送到版本库中。你应该手动处理它们。
 
-该动作将把渲染后的图片存储在GitHub Actions的`output`中，可以通过`steps.<id>.output`变量访问。输出的文件名被用作键。
+该动作将把渲染后的图片存储在GitHub
+Actions的`output`中，可以通过`steps.<id>.output`变量访问。输出的文件名被用作键。
 
 下面是一个例子。
 
