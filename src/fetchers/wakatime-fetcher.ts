@@ -61,22 +61,21 @@ export interface WakaTimeData {
 interface WakaTimeFetcherOptions {
   username: string;
   apiDomain?: string;
-  range?: '' | 'last_7_days' | 'last_30_days' | 'last_6_months' | 'last_year';
+  range?: "" | "last_7_days" | "last_30_days" | "last_6_months" | "last_year";
 }
 
 export async function fetchWakatimeStats({
   username,
-  apiDomain = 'wakatime.com',
-  range = '',
+  apiDomain = "wakatime.com",
+  range = "",
 }: WakaTimeFetcherOptions): Promise<WakaTimeData> {
-  const response =
-    range === ''
-      ? await fetch(
-          `https://${apiDomain}/api/v1/users/${username}/stats?is_including_today=true`
-        )
-      : await fetch(
-          `https://${apiDomain}/api/v1/users/${username}/stats/${range}?is_including_today=true`
-        );
+  const response = range === ""
+    ? await fetch(
+      `https://${apiDomain}/api/v1/users/${username}/stats?is_including_today=true`,
+    )
+    : await fetch(
+      `https://${apiDomain}/api/v1/users/${username}/stats/${range}?is_including_today=true`,
+    );
 
   const data = await response.json();
   return data.data;
