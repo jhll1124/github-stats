@@ -26,7 +26,6 @@ const WakatimeCard: JSX.FC<WakatimeCardProps> = ({
   const theme = useTheme();
 
   const languages = takeLanguages(
-    stats.languages,
     hideLanguages,
     maxLanguagesCount,
   );
