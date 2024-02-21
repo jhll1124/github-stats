@@ -3,7 +3,7 @@ FROM denoland/deno:1.22.2
 COPY . /github-stats
 WORKDIR /github-stats
 
-RUN ["deno", "cache" ,"--import-map=/github-stats/import_map.json", "/github-stats/src/action.ts"]
+# RUN ["deno", "cache" ,"--import-map=/github-stats/import_map.json", "/github-stats/src/action.ts"]
 
 ENTRYPOINT ["deno", "run" , \
 "--import-map=/github-stats/import_map.json", \
